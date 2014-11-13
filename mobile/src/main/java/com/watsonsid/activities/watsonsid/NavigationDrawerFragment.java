@@ -1,4 +1,4 @@
-package com.example.lance.watsonsid;
+package com.watsonsid.activities.watsonsid;
 
 
 import android.app.Activity;
@@ -21,6 +21,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.example.lance.watsonsid.R;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
@@ -199,7 +201,7 @@ public class NavigationDrawerFragment extends Fragment {
         if (mCallbacks != null) {
             mCallbacks.onNavigationDrawerItemSelected(position);
         }
-        mDrawerListView.setItemChecked(position, true);
+        //mDrawerListView.setItemChecked(position, true);
     }
 
     @Override
