@@ -37,15 +37,16 @@ public abstract class AbstractNavDrawerActivity extends FragmentActivity {
     NavDrawerActivityConfiguration getNavDrawerConfiguration() {
 
         NavDrawerItem[] menu = new NavDrawerItem[] {
-                NavMenuSection.create(100, "Demos"),
-                NavMenuItem.create(101, "List/Detail (Fragment)", "navdrawer_friends", false, this),
-                NavMenuItem.create(102, "Airport (AsyncTask)", "navdrawer_airport", true, this),
-                NavMenuSection.create(200, "General"),
-                NavMenuItem.create(202, "Rate this app", "navdrawer_rating", false, this),
-                NavMenuItem.create(203, "Eula", "navdrawer_eula", false, this),
-                NavMenuItem.create(204, "Quit", "navdrawer_quit", false, this)};
+                NavMenuSection.create(100, "Pages"),
+                NavMenuItem.create(101, "View Graphs", "navdrawer_graphs", false, this),
+                NavMenuItem.create(102, "Ask Watson", "navdrawer_watson", true, this),
+                NavMenuSection.create(200, "Do we need two sections??"),
+                NavMenuItem.create(202, "Lol", "navdrawer_rating", false, this),
+                NavMenuItem.create(203, "These don't", "navdrawer_eula", false, this),
+                NavMenuItem.create(204, "Do anything!", "navdrawer_quit", false, this)};
 
         NavDrawerActivityConfiguration navDrawerActivityConfiguration = new NavDrawerActivityConfiguration();
+        // In the future, to use more stuff, change this main layout shit!
         navDrawerActivityConfiguration.setMainLayout(R.layout.main);
         navDrawerActivityConfiguration.setDrawerLayoutId(R.id.drawer_layout);
         navDrawerActivityConfiguration.setLeftDrawerId(R.id.left_drawer);
