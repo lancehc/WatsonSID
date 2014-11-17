@@ -1,4 +1,4 @@
-/*package com.watsonsid.activities.watsonsid;
+package com.watsonsid.activities.watsonsid;
 
 //Eventually, we'll need to add back in this functionality.
 
@@ -29,6 +29,7 @@ import android.widget.TextView;
 import android.util.Base64;
 
 import com.example.lance.watsonsid.R;
+import com.watsonsid.common.AbstractNavDrawerActivity;
 
 import java.io.UnsupportedEncodingException;
 import java.security.cert.CertificateException;
@@ -42,7 +43,7 @@ interface WatsonQueryCallbacks{
   void onPostExecute();
 }
 
-public class WatsonActivity extends Activity implements WatsonQueryCallbacks{
+public class WatsonActivity extends AbstractNavDrawerActivity implements WatsonQueryCallbacks{
 
   private String mWatsonQueryString = "";
   private String mWatsonAnswerString = "";
@@ -279,4 +280,3 @@ public class WatsonActivity extends Activity implements WatsonQueryCallbacks{
 
 
 }
-*/

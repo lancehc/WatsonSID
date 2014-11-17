@@ -1,5 +1,7 @@
 package com.watsonsid.common;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -14,6 +16,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.lance.watsonsid.R;
+import com.watsonsid.activities.watsonsid.GraphActivity;
+import com.watsonsid.activities.watsonsid.WatsonActivity;
 
 /**
  * Created by lance on 11/12/14.
@@ -30,9 +34,40 @@ public abstract class AbstractNavDrawerActivity extends FragmentActivity {
 
     private NavDrawerActivityConfiguration navConf ;
 
-    protected abstract NavDrawerActivityConfiguration getNavDrawerConfiguration();
+    NavDrawerActivityConfiguration getNavDrawerConfiguration() {
 
-    protected abstract void onNavItemSelected( int id );
+        NavDrawerItem[] menu = new NavDrawerItem[] {
+                NavMenuSection.create(100, "Demos"),
+                NavMenuItem.create(101, "List/Detail (Fragment)", "navdrawer_friends", false, this),
+                NavMenuItem.create(102, "Airport (AsyncTask)", "navdrawer_airport", true, this),
+                NavMenuSection.create(200, "General"),
+                NavMenuItem.create(202, "Rate this app", "navdrawer_rating", false, this),
+                NavMenuItem.create(203, "Eula", "navdrawer_eula", false, this),
+                NavMenuItem.create(204, "Quit", "navdrawer_quit", false, this)};
+
+        NavDrawerActivityConfiguration navDrawerActivityConfiguration = new NavDrawerActivityConfiguration();
+        navDrawerActivityConfiguration.setMainLayout(R.layout.main);
+        navDrawerActivityConfiguration.setDrawerLayoutId(R.id.drawer_layout);
+        navDrawerActivityConfiguration.setLeftDrawerId(R.id.left_drawer);
+        navDrawerActivityConfiguration.setNavItems(menu);
+        navDrawerActivityConfiguration.setDrawerShadow(R.drawable.drawer_shadow);
+        navDrawerActivityConfiguration.setDrawerOpenDesc(R.string.drawer_open);
+        navDrawerActivityConfiguration.setDrawerCloseDesc(R.string.drawer_close);
+        navDrawerActivityConfiguration.setBaseAdapter(
+                new NavDrawerAdapter(this, R.layout.navdrawer_item, menu ));
+        return navDrawerActivityConfiguration;
+    }
+
+    void onNavItemSelected(int id) {
+        switch ((int)id) {
+            case 101:
+                startActivity(new Intent(this, GraphActivity.class));
+                break;
+            case 102:
+                startActivity(new Intent(this, WatsonActivity.class));
+                break;
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
