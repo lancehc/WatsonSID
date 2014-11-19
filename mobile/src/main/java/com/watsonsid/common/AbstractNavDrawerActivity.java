@@ -8,6 +8,7 @@ import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -34,7 +35,9 @@ public abstract class AbstractNavDrawerActivity extends FragmentActivity {
 
     private NavDrawerActivityConfiguration navConf ;
 
-    NavDrawerActivityConfiguration getNavDrawerConfiguration() {
+    protected abstract int getMainLayout();
+
+    protected NavDrawerActivityConfiguration getNavDrawerConfiguration() {
 
         NavDrawerItem[] menu = new NavDrawerItem[] {
                 NavMenuSection.create(100, "Pages"),
@@ -47,7 +50,7 @@ public abstract class AbstractNavDrawerActivity extends FragmentActivity {
 
         NavDrawerActivityConfiguration navDrawerActivityConfiguration = new NavDrawerActivityConfiguration();
         // In the future, to use more stuff, change this main layout shit!
-        navDrawerActivityConfiguration.setMainLayout(R.layout.main);
+        navDrawerActivityConfiguration.setMainLayout(getMainLayout());
         navDrawerActivityConfiguration.setDrawerLayoutId(R.id.drawer_layout);
         navDrawerActivityConfiguration.setLeftDrawerId(R.id.left_drawer);
         navDrawerActivityConfiguration.setNavItems(menu);
@@ -82,6 +85,7 @@ public abstract class AbstractNavDrawerActivity extends FragmentActivity {
 
         mDrawerLayout = (DrawerLayout) findViewById(navConf.getDrawerLayoutId());
         mDrawerList = (ListView) findViewById(navConf.getLeftDrawerId());
+        Log.d("Temp", "getBaseAdapter() = " + navConf.getBaseAdapter() + "\n mDrawerList = " + mDrawerList);
         mDrawerList.setAdapter(navConf.getBaseAdapter());
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 

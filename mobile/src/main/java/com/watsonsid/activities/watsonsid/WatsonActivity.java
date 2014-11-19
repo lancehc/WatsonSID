@@ -12,4 +12,7 @@ public class WatsonActivity extends AbstractNavDrawerActivity {
         super.onCreate(savedInstanceState);
         getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, new WatsonFragment()).commit();
     }
+
+    @Override
+    protected int getMainLayout() { return R.layout.main; }
 }
