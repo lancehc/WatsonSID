@@ -1,4 +1,4 @@
-package com.watsonsid.common;
+package com.watsonsid.common.navdrawer;
 
 /**
  * Created by lance on 11/12/14.

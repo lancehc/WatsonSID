@@ -3,7 +3,7 @@ package com.watsonsid.activities.watsonsid;
 import android.os.Bundle;
 
 import com.example.lance.watsonsid.R;
-import com.watsonsid.common.AbstractNavDrawerActivity;
+import com.watsonsid.common.navdrawer.AbstractNavDrawerActivity;
 import com.watsonsid.fragments.WatsonFragment;
 
 public class WatsonActivity extends AbstractNavDrawerActivity {
@@ -14,5 +14,5 @@ public class WatsonActivity extends AbstractNavDrawerActivity {
     }
 
     @Override
-    protected int getMainLayout() { return R.layout.main; }
+    protected int getMainLayout() { return R.layout.activity_base; }
 }

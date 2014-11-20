@@ -2,75 +2,44 @@ package com.watsonsid.activities.watsonsid;
 
 import android.os.Bundle;
 import android.support.v4.view.GestureDetectorCompat;
-import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 
 import com.example.lance.watsonsid.R;
+import com.jjoe64.graphview.CustomLabelFormatter;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GraphViewSeries;
 import com.jjoe64.graphview.LineGraphView;
-import com.watsonsid.common.AbstractNavDrawerActivity;
+import com.watsonsid.common.navdrawer.AbstractNavDrawerActivity;
+import com.watsonsid.common.OnSwipeTouchListener;
 
 /**
  * Created by lance on 11/12/14.
  */
 public class GraphActivity extends AbstractNavDrawerActivity {
     private GestureDetectorCompat gestureDetector;
+    private final String[] graphNames = new String[]{
+            "Heart Rate",
+            "Blood Oxygen Content",
+            "Sleep Duration"};
     private int i = 0;
 
     @Override
-    protected int getMainLayout() { return R.layout.activity_graph; }
+    protected int getMainLayout() { return R.layout.activity_base; }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        gestureDetector = new GestureDetectorCompat(this, new GestureDetector.SimpleOnGestureListener() {
-            private static final int SWIPE_THRESHOLD = 0;
-            private static final int SWIPE_VELOCITY_THRESHOLD = 0;
+        gestureDetector = new GestureDetectorCompat(this, new OnSwipeTouchListener() {
             @Override
-            public boolean onDown(MotionEvent event) { return true; }
-            @Override
-            public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-                boolean result = false;
-                try {
-                    float diffY = e2.getY() - e1.getY();
-                    float diffX = e2.getX() - e1.getX();
-                    if (Math.abs(diffX) > Math.abs(diffY)) {
-                        if (Math.abs(diffX) > SWIPE_THRESHOLD && Math.abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
-                            if (diffX > 0) {
-                                onSwipeRight();
-                            } else {
-                                onSwipeLeft();
-                            }
-                        }
-                        result = true;
-                    }
-                    else if (Math.abs(diffY) > SWIPE_THRESHOLD && Math.abs(velocityY) > SWIPE_VELOCITY_THRESHOLD) {
-                        if (diffY > 0) {
-                            onSwipeBottom();
-                        } else {
-                            onSwipeTop();
-                        }
-                        result = true;
-                    }
-
-                } catch (Exception exception) {
-                    exception.printStackTrace();
-                }
-                return result;
-            }
-            void onSwipeTop() {
+            protected void onSwipeTop() {
                 if (i < 2) {
                     setGraphVisual(++i);
                 }
             }
-            void onSwipeRight() {
-            }
-            void onSwipeLeft() {
-            }
-            void onSwipeBottom() {
+            @Override
+            protected void onSwipeBottom() {
                 if (i > 0) {
                     setGraphVisual(--i);
                 }
@@ -80,58 +49,90 @@ public class GraphActivity extends AbstractNavDrawerActivity {
         setGraphVisual(i);
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event){
-        this.gestureDetector.onTouchEvent(event);
-        return super.onTouchEvent(event);
-    }
-
-    /*@Override
-    public boolean dispatchTouchEvent(MotionEvent event) {
-        return onTouchEvent(event);
-    }*/
-
     private void setGraphVisual(int index) {
-        GraphView graphView = new LineGraphView(this, "Graph " + index);
+        GraphView graphView = new LineGraphView(this, graphNames[index]);
         graphView.addSeries(getGraphData(index));
+        graphView.setCustomLabelFormatter(getCustomLabelFormatter(index));
         FrameLayout layout = (FrameLayout) findViewById(R.id.content_frame);
         layout.removeAllViews();
         layout.addView(graphView);
         layout.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-                return onTouchEvent(motionEvent);
+                return gestureDetector.onTouchEvent(motionEvent);
             }
         });
     }
 
-    private GraphViewSeries getGraphData(int index) {
+    private CustomLabelFormatter getCustomLabelFormatter(int index) {
         switch(index) {
             case 0:
-                return new GraphViewSeries(
-                        new GraphView.GraphViewData[]{
-                                new GraphView.GraphViewData(123456789.0, 100.0),
-                                new GraphView.GraphViewData(123456790.0, 110.0),
-                                new GraphView.GraphViewData(123456800.0, 120.0),
-                                new GraphView.GraphViewData(123456810.0, 130.0)
-                        }
-                );
+                return new CustomLabelFormatter() {
+                    @Override
+                    public String formatLabel(double value, boolean isValueX) {
+                        if(isValueX)
+                            return timeElapsed(value);
+                        else
+                            return String.format("%.1f Bpm", value);
+                    }
+                };
             case 1:
+                return new CustomLabelFormatter() {
+                    @Override
+                    public String formatLabel(double value, boolean isValueX) {
+                        if(isValueX)
+                            return timeElapsed(value);
+                        else
+                            return String.format("%.1f", value) + "%";
+                    }
+                };
+            case 2:
+                return new CustomLabelFormatter() {
+                    @Override
+                    public String formatLabel(double value, boolean isValueX) {
+                        if(isValueX)
+                            return timeElapsed(value);
+                        else
+                            return String.format("%.1f Hrs", value);
+                    }
+                };
+            default:
+                return null;
+        }
+    }
+
+    String timeElapsed(double value) {
+        return System.currentTimeMillis() / 1000L - (long) value + " s";
+    }
+
+    private GraphViewSeries getGraphData(int index) {
+        double baseTime = System.currentTimeMillis() / 1000L - 5000.0;
+        switch(index) {
+            case 0: // heart rate
                 return new GraphViewSeries(
                         new GraphView.GraphViewData[]{
-                                new GraphView.GraphViewData(123456789.0, 200.0),
-                                new GraphView.GraphViewData(123456790.0, 310.0),
-                                new GraphView.GraphViewData(123456800.0, 420.0),
-                                new GraphView.GraphViewData(123456810.0, 530.0)
+                                new GraphView.GraphViewData(baseTime + 1000.0, 60.0),
+                                new GraphView.GraphViewData(baseTime + 2000.0, 70.0),
+                                new GraphView.GraphViewData(baseTime + 3000.0, 65.0),
+                                new GraphView.GraphViewData(baseTime + 4000.0, 80.0)
                         }
                 );
-            case 2:
+            case 1: // blood oxygen content
                 return new GraphViewSeries(
                         new GraphView.GraphViewData[]{
-                                new GraphView.GraphViewData(123456789.0, 500.0),
-                                new GraphView.GraphViewData(123456790.0, 410.0),
-                                new GraphView.GraphViewData(123456800.0, 320.0),
-                                new GraphView.GraphViewData(123456810.0, 230.0)
+                                new GraphView.GraphViewData(baseTime + 1000.0, 70.0),
+                                new GraphView.GraphViewData(baseTime + 2000.0, 80.0),
+                                new GraphView.GraphViewData(baseTime + 3000.0, 79.0),
+                                new GraphView.GraphViewData(baseTime + 4000.0, 62.0)
+                        }
+                );
+            case 2: // sleep duration
+                return new GraphViewSeries(
+                        new GraphView.GraphViewData[]{
+                                new GraphView.GraphViewData(baseTime + 1000.0, 8.0),
+                                new GraphView.GraphViewData(baseTime + 2000.0, 9.0),
+                                new GraphView.GraphViewData(baseTime + 3000.0, 4.0),
+                                new GraphView.GraphViewData(baseTime + 4000.0, 5.0)
                         }
                 );
             default:

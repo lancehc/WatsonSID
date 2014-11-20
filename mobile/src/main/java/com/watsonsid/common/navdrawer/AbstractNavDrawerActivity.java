@@ -1,6 +1,5 @@
-package com.watsonsid.common;
+package com.watsonsid.common.navdrawer;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -8,7 +7,6 @@ import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,6 +16,7 @@ import android.widget.ListView;
 
 import com.example.lance.watsonsid.R;
 import com.watsonsid.activities.watsonsid.GraphActivity;
+import com.watsonsid.activities.watsonsid.HomeActivity;
 import com.watsonsid.activities.watsonsid.WatsonActivity;
 
 /**
@@ -41,15 +40,16 @@ public abstract class AbstractNavDrawerActivity extends FragmentActivity {
 
         NavDrawerItem[] menu = new NavDrawerItem[] {
                 NavMenuSection.create(100, "Pages"),
-                NavMenuItem.create(101, "View Graphs", "navdrawer_graphs", false, this),
+                NavMenuItem.create(101, "Home", "navdrawer_home", false, this),
                 NavMenuItem.create(102, "Ask Watson", "navdrawer_watson", true, this),
+                NavMenuItem.create(103, "View Graphs", "navdrawer_graphs", true, this),
                 NavMenuSection.create(200, "Do we need two sections??"),
                 NavMenuItem.create(202, "Lol", "navdrawer_rating", false, this),
                 NavMenuItem.create(203, "These don't", "navdrawer_eula", false, this),
                 NavMenuItem.create(204, "Do anything!", "navdrawer_quit", false, this)};
 
         NavDrawerActivityConfiguration navDrawerActivityConfiguration = new NavDrawerActivityConfiguration();
-        // In the future, to use more stuff, change this main layout shit!
+        // In the future, to use more stuff, change this activity_base layout shit!
         navDrawerActivityConfiguration.setMainLayout(getMainLayout());
         navDrawerActivityConfiguration.setDrawerLayoutId(R.id.drawer_layout);
         navDrawerActivityConfiguration.setLeftDrawerId(R.id.left_drawer);
@@ -65,10 +65,13 @@ public abstract class AbstractNavDrawerActivity extends FragmentActivity {
     void onNavItemSelected(int id) {
         switch ((int)id) {
             case 101:
-                startActivity(new Intent(this, GraphActivity.class));
+                startActivity(new Intent(this, HomeActivity.class));
                 break;
             case 102:
                 startActivity(new Intent(this, WatsonActivity.class));
+                break;
+            case 103:
+                startActivity(new Intent(this, GraphActivity.class));
                 break;
         }
     }
@@ -85,7 +88,6 @@ public abstract class AbstractNavDrawerActivity extends FragmentActivity {
 
         mDrawerLayout = (DrawerLayout) findViewById(navConf.getDrawerLayoutId());
         mDrawerList = (ListView) findViewById(navConf.getLeftDrawerId());
-        Log.d("Temp", "getBaseAdapter() = " + navConf.getBaseAdapter() + "\n mDrawerList = " + mDrawerList);
         mDrawerList.setAdapter(navConf.getBaseAdapter());
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 

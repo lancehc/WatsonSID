@@ -1,4 +1,4 @@
-package com.watsonsid.common;
+package com.watsonsid.common.navdrawer;
 
 import android.content.Context;
 import android.view.LayoutInflater;
