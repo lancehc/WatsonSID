@@ -20,13 +20,18 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    //compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile project(':ParseLoginUI')
+    compile project(':facebook')
     wearApp project(':wear')
     compile 'com.google.android.gms:play-services-wearable:+'
-    compile 'com.android.support:support-v4:20.0.0'
+    //compile 'com.android.support:support-v4:20.0.0'
     compile files('libs/GraphView-3.1.3.jar')
-    compile files('libs/Parse-1.7.1.jar')
-    compile files('libs/bolts-android-1.1.3.jar')
+    //compile files('libs/Parse-1.7.1.jar')
+    //compile files('libs/bolts-android-1.1.3.jar')
     compile 'com.parse.bolts:bolts-android:1.1.2'
-    compile fileTree(dir: 'libs', include: 'Parse-*.jar')
+    //compile fileTree(dir: 'libs', include: 'Parse-*.jar')
+    //compile files('C:/Users/sammy_000/Documents/GitHub/WatsonSID/ParseLoginUI/libs/Parse-1.7.0.jar')
+    //compile files('C:/Users/sammy_000/Documents/GitHub/WatsonSID/facebook/libs/bolts-android-1.1.2.jar')
 }
+
