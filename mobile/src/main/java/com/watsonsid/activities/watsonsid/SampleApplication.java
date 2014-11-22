@@ -28,6 +28,8 @@ import com.parse.Parse;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseTwitterUtils;
 
+import io.oauth.*;
+
 public class SampleApplication extends Application {
   @Override
   public void onCreate() {
@@ -37,6 +39,8 @@ public class SampleApplication extends Application {
             ,"mtIPb4TfldPpGzn1obECJKMxyeNGoztmcG8RRVKl");
 
     Parse.setLogLevel(Parse.LOG_LEVEL_DEBUG);
+
+
 
 //    // Optional - If you don't want to allow Facebook login, you can
 //    // remove this line (and other related ParseFacebookUtils calls)

@@ -1,7 +1,14 @@
+// pass for oauthn.io is eecs481
+// email is shajalie@umich.edu
+
+
 package com.watsonsid.activities.watsonsid;
 
+
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,16 +20,28 @@ import com.example.lance.watsonsid.R;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+//import com.parse.signpost.OAuth;
 import com.watsonsid.common.Patient;
 import com.watsonsid.common.navdrawer.AbstractNavDrawerActivity;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
+import io.oauth.*;
+import android.widget.TextView;
+
+import org.json.JSONObject;
 
 /**
  * Created by lance on 11/12/14.
  */
 public class HomeActivity extends AbstractNavDrawerActivity {
+
+
+    TextView withingstext;
 
     @Override
     protected int getMainLayout() { return R.layout.activity_base; }
@@ -37,8 +56,31 @@ public class HomeActivity extends AbstractNavDrawerActivity {
         listView.setAdapter(adapter);
         FrameLayout layout = (FrameLayout) findViewById(R.id.content_frame);
         layout.removeAllViews();
-        layout.addView(listView);
+
+
+
+
+        final OAuth oauth = new OAuth(this);
+        oauth.initialize("ldTryVrdGOwhuCq8O_XXcUOkL7U");
+
+        OAuthCallback callbac = new OAuthCallback() {
+            @Override
+            public void onFinished(OAuthData oAuthData) {
+
+            }
+        };
+
+        oauth.popup("withings", callbac);
+
+
+
     }
+
+    public void onFinished(OAuthData data) {
+        // use data to grab stuff directly from withings
+
+    }
+
 
     Patient[] getPatientArray() {
         String doctorId = "TODO THIS";
