@@ -21,16 +21,40 @@
 
 package com.watsonsid.activities.watsonsid;
 
+import android.os.Bundle;
+
+import io.oauth.*;
+
+import com.example.lance.watsonsid.R;
 import com.parse.ui.ParseLoginDispatchActivity;
 
 
 
-import com.*;
+import io.oauth.OAuthData;
 
 public class SampleDispatchActivity extends ParseLoginDispatchActivity {
 
-  @Override
+
+//    @Override
+//    public void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        setContentView(R.layout.activity_base);
+//
+//        final OAuth o = new OAuth(this);
+//        o.initialize("ldTryVrdGOwhuCq8O_XXcUOkL7U"); // Initialize the oauth key
+//
+//
+//        o.popup("withings", HomeActivity.this);
+//    }
+
+        @Override
   protected Class<?> getTargetClass() {
-    return HomeActivity.class;
+    return Withings.class;
   }
+
+
+//
+//    public void onFinished(OAuthData data) {
+//
+//    }
 }

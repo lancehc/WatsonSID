@@ -5,6 +5,7 @@
 package com.watsonsid.activities.watsonsid;
 
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -30,8 +31,11 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
-import io.oauth.*;
+// import io.oauth.*;
 import android.widget.TextView;
+
+
+
 
 import org.json.JSONObject;
 
@@ -60,26 +64,19 @@ public class HomeActivity extends AbstractNavDrawerActivity {
 
 
 
-        final OAuth oauth = new OAuth(this);
-        oauth.initialize("ldTryVrdGOwhuCq8O_XXcUOkL7U");
-
-        OAuthCallback callbac = new OAuthCallback() {
-            @Override
-            public void onFinished(OAuthData oAuthData) {
-
-            }
-        };
-
-        oauth.popup("withings", callbac);
 
 
 
     }
 
-    public void onFinished(OAuthData data) {
-        // use data to grab stuff directly from withings
-
-    }
+//    public void onFinished(OAuthData data) {
+//        // use data to grab stuff directly from withings
+//
+//        System.out.print(data.request);
+//
+//
+//
+//    }
 
 
     Patient[] getPatientArray() {
