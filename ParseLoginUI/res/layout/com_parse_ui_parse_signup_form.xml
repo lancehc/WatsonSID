@@ -51,6 +51,32 @@
         android:hint="@string/com_parse_ui_name_input_hint"
         android:inputType="textPersonName" />
 
+    <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="10px"
+        >
+
+        <RadioButton
+            android:id="@+id/radioDoctor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Doctor"
+
+            android:layout_marginRight="60px"
+            android:layout_marginLeft="20px"/>
+
+
+        <RadioButton
+            android:id="@+id/radioPatient"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Patient"
+            />
+    </RadioGroup>
+
+
     <Button
         android:id="@+id/create_account"
         style="@style/ParseLoginUI.Button"
