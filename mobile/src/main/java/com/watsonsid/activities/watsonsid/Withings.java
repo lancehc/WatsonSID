@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Debug;
+import android.util.Log;
+import android.util.Xml;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -14,6 +16,8 @@ import com.example.lance.watsonsid.R;
 
 import io.oauth.*;
 
+import com.parse.*;
+import com.parse.ui.*;
 
 import com.parse.Parse;
 import com.parse.ParseObject;
@@ -32,11 +36,15 @@ import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Random;
 
-public class Withings extends Activity implements OAuthCallback{
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
+
+public class Withings extends Activity implements OAuthCallback {
 
 
-    final OAuth oauth = new OAuth(this);
+//    OAuth oauth;
     OAuthCallback callback;
 
     ParseUser parseuser;
@@ -60,27 +68,33 @@ public class Withings extends Activity implements OAuthCallback{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_withings);
 
+        final OAuth oauth = new OAuth(this);
 
         oauth.initialize("ldTryVrdGOwhuCq8O_XXcUOkL7U");
 
         twitterText = (TextView) findViewById(R.id.twitterText);
         myText = (TextView) findViewById(R.id.myText);
 
-
-
         callback = new OAuthCallback() {
             @Override
-            public void onFinished(OAuthData oAuthData) {
+            public void onFinished(OAuthData data) {
+//                parseAccessToken = new ParseObject("WithingsAccess");
 
+
+//                withingsAccessToken = data.token;
+//                withingsProvider = data.provider;
+//                withingsSecret = data.secret;
+//
+//                twitterText.setText(data.token);
             }
 
         };
 
-        String thisthing = "";
+        String thisthing = "withings";
 
-        oauth.popup("withings", Withings.this);
+        oauth.popup("withings", this);
 
-        parseuser = ParseUser.getCurrentUser();
+        //parseuser = ParseUser.getCurrentUser();
 
 
 
@@ -90,31 +104,32 @@ public class Withings extends Activity implements OAuthCallback{
     public void onFinished(OAuthData data) {
 
 
-        parseAccessToken = new ParseObject("WithingsAccess");
+//        parseAccessToken = new ParseObject("WithingsAccess");
+//
+//
+//        withingsAccessToken = data.token;
+//        withingsProvider = data.provider;
+//        withingsSecret = data.secret;
+//
+        Log.v("Oauth", data.state.toString());
 
-
-        withingsAccessToken = data.token;
-        withingsProvider = data.provider;
-        withingsSecret = data.secret;
-
-
-
-        // myText.setText(data.state.toString());
-
-
-
+        myText.setText(data.state.toString());
 
         //parseAccessToken.put("withingsToken", withingsAccessToken);
         //parseAccessToken.saveInBackground();
 
-        parseuser.put("WithingUserAccess", withingsAccessToken);
+        /*parseuser.put("WithingUserAccess", withingsAccessToken);
         parseuser.put("WithingsSecret", withingsSecret);
         parseuser.put("WithingsProvider", withingsProvider);
-
+*/
         // myText.setText(data.request.toString());
-
-        data.http(data.provider.equals("withings") ? "/me" : "/1.1/account/verify_credentials.json", new OAuthRequest() {
-
+        Log.v("Oauth", data.request.toString());
+        String oauth_customer_key = "b57fe01deec0d74bc9793042950241d1507c3f4021920b1d9923813f9c6";
+        Random r = new Random();
+        String oauth_noonce = String.valueOf(r.nextDouble());
+        String timestamp = String.valueOf(System.currentTimeMillis() / 1000L);
+        String signature = data.token;
+        data.http("measure?action=getmeas", new OAuthRequest() {
 
             @Override
             public void onSetURL(String _url) {
@@ -128,15 +143,13 @@ public class Withings extends Activity implements OAuthCallback{
 
             @Override
             public void onSetHeader(String header, String value) {
-//                con.addRequestProperty(header, value);
+                con.addRequestProperty(header, value);
             }
 
             @Override
             public void onReady() {
                 try {
-
-                    HttpClient client = new DefaultHttpClient();
-
+                    con.connect();
                     BufferedReader r = new BufferedReader(new InputStreamReader(con.getInputStream()));
                     StringBuilder total = new StringBuilder();
                     String line;
@@ -146,8 +159,8 @@ public class Withings extends Activity implements OAuthCallback{
                     while ((line = r.readLine()) != null) {
                         total.append(line);
                     }
-                    JSONObject result = new JSONObject(total.toString());
-                    twitterText.setText("hello, ");
+                 JSONObject result = new JSONObject(total.toString());
+                    twitterText.setText(result.toString());
                 } catch (Exception e) { e.printStackTrace(); }
             }
 
@@ -166,13 +179,13 @@ public class Withings extends Activity implements OAuthCallback{
 
 
 
-        parseuser.saveInBackground();
+//        parseuser.saveInBackground();
 
 
 
 
 
-        // startActivity(new Intent(this, HomeActivity.class));
+        //startActivity(new Intent(this, HomeActivity.class));
     }
 
 

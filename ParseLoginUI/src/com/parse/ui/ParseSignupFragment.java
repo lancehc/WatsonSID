@@ -173,11 +173,6 @@ public class ParseSignupFragment extends ParseLoginFragmentBase implements OnCli
         }
 
 
-
-
-
-
-
         if (username.length() == 0) {
             showToast(R.string.com_parse_ui_no_username_toast);
         } else if (password.length() == 0) {
@@ -196,7 +191,7 @@ public class ParseSignupFragment extends ParseLoginFragmentBase implements OnCli
             showToast(R.string.com_parse_ui_no_email_toast);
         } else if (name != null && name.length() == 0) {
             showToast(R.string.com_parse_ui_no_name_toast);
-        } else if (!doctorButton.isChecked() && !doctorButton.isChecked()) {
+        } else if (!doctorButton.isChecked() && !patientButton.isChecked()) {
             showToast("Please select doctor or patient... pls");
         } else {
             ParseUser user = new ParseUser();

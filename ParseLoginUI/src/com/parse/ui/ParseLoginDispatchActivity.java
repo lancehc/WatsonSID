@@ -59,7 +59,8 @@ public abstract class ParseLoginDispatchActivity extends Activity {
 
     private static final String LOG_TAG = "ParseLoginDispatch";
 
-
+    OAuthCallback callback;
+    OAuth oauth;
 
 
     @Override
@@ -67,12 +68,30 @@ public abstract class ParseLoginDispatchActivity extends Activity {
         super.onCreate(savedInstanceState);
         runDispatch();
 
+        oauth = new OAuth(this);
 
 
 
 
-
-        //oauth.popup("withings", callback);
+//        oauth.initialize("ldTryVrdGOwhuCq8O_XXcUOkL7U");
+//
+//        callback = new OAuthCallback() {
+//            @Override
+//            public void onFinished(OAuthData data) {
+////                parseAccessToken = new ParseObject("WithingsAccess");
+//
+//
+////                withingsAccessToken = data.token;
+////                withingsProvider = data.provider;
+////                withingsSecret = data.secret;
+////
+////                twitterText.setText(data.token);
+//            }
+//
+//        };
+//
+//
+//        oauth.popup("withings", callback);
 
     }
 
@@ -104,7 +123,24 @@ public abstract class ParseLoginDispatchActivity extends Activity {
             debugLog(getString(R.string.com_parse_ui_login_dispatch_user_logged_in) + getTargetClass());
             startActivityForResult(new Intent(this, getTargetClass()), TARGET_REQUEST);
 
-            //
+            callback = new OAuthCallback() {
+                @Override
+                public void onFinished(OAuthData data) {
+//                parseAccessToken = new ParseObject("WithingsAccess");
+
+
+//                withingsAccessToken = data.token;
+//                withingsProvider = data.provider;
+//                withingsSecret = data.secret;
+//
+//                twitterText.setText(data.token);
+                }
+
+            };
+
+//            oauth.popup("withings", callback);
+
+
 
         } else {
             debugLog(getString(R.string.com_parse_ui_login_dispatch_user_not_logged_in));
