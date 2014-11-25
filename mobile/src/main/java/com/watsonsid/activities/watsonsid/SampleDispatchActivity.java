@@ -49,7 +49,7 @@ public class SampleDispatchActivity extends ParseLoginDispatchActivity {
 
         @Override
   protected Class<?> getTargetClass() {
-    return Withings.class;
+    return HomeActivity.class;
   }
 
 
