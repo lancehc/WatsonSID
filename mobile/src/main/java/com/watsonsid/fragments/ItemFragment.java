@@ -79,6 +79,9 @@ public class ItemFragment extends Fragment implements AbsListView.OnItemClickLis
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        DummyContent.populate();
+
+
 
         // TODO: Change Adapter to display your content
         mAdapter = new ArrayAdapter<DummyContent.DummyItem>(getActivity(),
@@ -152,6 +155,7 @@ public class ItemFragment extends Fragment implements AbsListView.OnItemClickLis
     */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
+
         public void onFragmentInteraction(String id);
     }
 
