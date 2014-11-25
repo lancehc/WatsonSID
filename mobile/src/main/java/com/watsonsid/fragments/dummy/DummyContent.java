@@ -26,12 +26,6 @@ import com.parse.ui.*;
 public class DummyContent {
 
 
-
-
-
-
-
-
 //    public ParseUser getCurrentuser() {
 //        return currentuser;
 //    }
@@ -50,12 +44,12 @@ public class DummyContent {
      static  {
 
 
-        populate();
-
-        // Add 3 sample items.
-        addItem(new DummyItem("1", "Item 1"));
-        addItem(new DummyItem("2", "Item 2"));
-        addItem(new DummyItem("3", "Item 3"));
+//        populate();
+//
+//        // Add 3 sample items.
+//        addItem(new DummyItem("1", "Item 1"));
+//        addItem(new DummyItem("2", "Item 2"));
+//        addItem(new DummyItem("3", "Item 3"));
 
 
 //        ParseQuery query = new ParseQuery("patientList");
@@ -83,22 +77,22 @@ public class DummyContent {
 
 
 
-    public  static void populate() {
+    public static void populate() {
+
+        ITEMS.clear();
 
         ParseUser user = ParseUser.getCurrentUser();
-
         List<String> a = user.getList("patientsList");
-
 
         for (int i = 0; i < a.size(); i++) {
 
             String c = a.get(i);
-
             DummyItem b = new DummyItem("1", c);
-
             addItem(b);
 
         }
+
+
     }
 
     private static void addItem(DummyItem item) {
