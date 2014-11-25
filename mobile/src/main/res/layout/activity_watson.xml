@@ -6,43 +6,67 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.watsonsid.fragments.WatsonFragment" >
+    tools:context="com.watsonsid.fragments.WatsonFragment"
+ >
+
+
+
+
+
+     <EditText
+
+        android:id="@+id/watson_question_text"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="What is your question?"
+         android:layout_alignParentTop="true"
+         android:paddingBottom="16dp">
+
+      </EditText>
+
+
+    <!--android:layout_marginBottom="48dp"-->
+
+    <!--android:layout_alignBottom="@+id/watson_submit_button"-->
+<!---->
+    <!--android:layout_marginTop="124dp"-->
+
 
     <EditText
         android:id="@+id/watson_answer_text"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentBottom="true"
+        android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="107dp"
-        android:ems="10" 
+        android:layout_marginTop="60dp"
+        android:hint="Answer will appear here"
+        android:layout_marginBottom="60dp"
+
+        android:ems="10"
         android:isScrollContainer="true"
         android:inputType="textMultiLine"
-        android:clickable="false" 
-        android:cursorVisible="false" 
-        android:focusable="false" 
+        android:clickable="false"
+        android:cursorVisible="false"
+        android:focusable="false"
         android:focusableInTouchMode="false">
-
-        <requestFocus />
+        <!--android:layout_marginTop="200dp"-->
+        <!--android:layout_marginBottom="10px"-->
+        <requestFocus/>
     </EditText>
+
 
     <Button
         android:id="@+id/watson_submit_button"
-        android:layout_width="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="124dp"
-        android:text="AskWatson" />
 
-    <EditText
-        android:id="@+id/watson_question_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/watson_submit_button"
-        android:layout_alignLeft="@+id/watson_answer_text"
-        android:layout_marginBottom="48dp"
-        android:ems="10"
-        android:hint="Ask IBM Watson" />
+        android:layout_centerHorizontal="true"
+        android:text="Ask IBM Watson"
+        android:layout_marginTop="10dp"
+        android:background="#05CDFA"/>
+
+
 
 </RelativeLayout>
