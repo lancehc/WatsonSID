@@ -145,6 +145,10 @@ public abstract class ParseLoginDispatchActivity extends Activity {
         } else {
             debugLog(getString(R.string.com_parse_ui_login_dispatch_user_not_logged_in));
 
+            ParseUser user = ParseUser.getCurrentUser();
+
+
+
             //oauth.popup("withings", callback);
 
             //

@@ -21,6 +21,7 @@ import com.example.lance.watsonsid.R;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 //import com.parse.signpost.OAuth;
 import com.watsonsid.common.Patient;
 import com.watsonsid.common.navdrawer.AbstractNavDrawerActivity;
@@ -37,12 +38,16 @@ import android.widget.TextView;
 
 
 
+
 import org.json.JSONObject;
 
 /**
  * Created by lance on 11/12/14.
  */
 public class HomeActivity extends AbstractNavDrawerActivity {
+
+    ParseUser user = ParseUser.getCurrentUser();
+
 
 
     TextView withingstext;

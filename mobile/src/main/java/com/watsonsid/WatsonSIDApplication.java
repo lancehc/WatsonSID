@@ -10,11 +10,17 @@ import com.parse.ParseUser;
  * Created by lance on 11/19/14.
  */
 public class WatsonSIDApplication extends Application {
+
+    ParseUser user;
+
     @Override
     public void onCreate() {
         super.onCreate();
 
         Parse.initialize(this, "YpomqSw56fhDwsYPz96BKuqNwTMfK5xA1ShH6sf8", "mtIPb4TfldPpGzn1obECJKMxyeNGoztmcG8RRVKl");
+
+
+
 
         ParseUser.enableAutomaticUser();
         ParseACL defaultACL = new ParseACL();
@@ -22,4 +28,9 @@ public class WatsonSIDApplication extends Application {
         // defaultACL.setPublicReadAccess(true);
         ParseACL.setDefaultACL(defaultACL, true);
     }
+
+    public ParseUser getUser() {
+        return ParseUser.getCurrentUser();
+    }
+
 }
