@@ -33,7 +33,7 @@ public class WatsonFragment extends Fragment implements WatsonQueryCallbacks {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View ret = inflater.inflate(R.layout.activity_watson, container, false);
-        watson = new Watson(getString(R.string.user_id), getString(R.string.user_password), getString(R.string.user_watson_server_instance));
+
         mCallbacks = this;
         // Inflate the layout for this fragment
         // event binding for submit button
@@ -42,6 +42,7 @@ public class WatsonFragment extends Fragment implements WatsonQueryCallbacks {
                                                                            public void onClick(View v) {
                                                                                EditText watsonQuestion = (EditText) ret.findViewById(R.id.watson_question_text);
                                                                                if (watsonQuestion.getText() != null) {
+                                                                                   watson = new Watson(getString(R.string.user_id), getString(R.string.user_password), getString(R.string.user_watson_server_instance));
                                                                                    mWatsonQueryString = watsonQuestion.getText().toString();
                                                                                    watson.sendQuery(mWatsonQueryString, mCallbacks);
                                                                                }
