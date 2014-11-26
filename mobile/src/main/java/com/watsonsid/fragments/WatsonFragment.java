@@ -4,6 +4,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.Application;
+import android.app.ProgressDialog;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,11 +14,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.lance.watsonsid.R;
 
+import com.watsonsid.WatsonSIDApplication;
 import com.watsonsid.model_classes.Watson;
 import com.watsonsid.model_classes.WatsonQueryCallbacks;
 
@@ -28,7 +32,7 @@ public class WatsonFragment extends Fragment implements WatsonQueryCallbacks {
     private WatsonFragment mCallbacks;
     private Watson watson;
     private View view;
-
+    private ProgressDialog progress;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -44,6 +48,7 @@ public class WatsonFragment extends Fragment implements WatsonQueryCallbacks {
                                                                                if (watsonQuestion.getText() != null) {
                                                                                    watson = new Watson(getString(R.string.user_id), getString(R.string.user_password), getString(R.string.user_watson_server_instance));
                                                                                    mWatsonQueryString = watsonQuestion.getText().toString();
+                                                                                   progress = ProgressDialog.show(ret.getContext(), "Asking Watson", "Please wait a moment", true, true);
                                                                                    watson.sendQuery(mWatsonQueryString, mCallbacks);
                                                                                }
                                                                            }
@@ -83,6 +88,7 @@ public class WatsonFragment extends Fragment implements WatsonQueryCallbacks {
                 TextView textView = (TextView) view.findViewById(R.id.watson_answer_text);
                 textView.setText(mWatsonAnswerString);
                 Log.i("watson answer set to:", mWatsonAnswerString);
+                progress.dismiss();
             }
         } catch (JSONException e) {
             e.printStackTrace();

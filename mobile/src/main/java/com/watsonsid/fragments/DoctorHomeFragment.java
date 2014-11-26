@@ -1,4 +1,4 @@
-package  com.watsonsid.fragments;
+package com.watsonsid.fragments;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -17,37 +17,35 @@ import java.util.List;
 
 public class DoctorHomeFragment extends Fragment {
 
-    TextView myText;
+    TextView doctorHomeGreeting;
 
-    ParseUser user;
+    View rootView;
 
+    ParseUser user = ParseUser.getCurrentUser();
+
+    List<String> patientStatusList;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragmentdoctorhome, container, false);
+        rootView = inflater.inflate(R.layout.fragmentdoctorhome, container, false);
 
+        setPatientStatus();
 
-
-
-//        List<String> a = user.getList("patientList");
-
-
-
-
+//        doctorHomeGreeting = (TextView) rootView.findViewById(R.id.texttest);
+//        String b = "";
+//        for (int i = 0; i < patientStatusList.size(); i++) {
+//            b += patientStatusList.get(0);
+//            b += " ";
+//        }
 //
-//        ParseQuery<ParseObject> query = ParseQuery.getQuery();
-//        query.whereEqualTo("username", user.getUsername());
-//        query.findInBackground(new FindCallback<ParseObject>() {
-//            public void done(List<ParseObject> scoreList, ParseException e) {
-//                if (e == null) {
-//                    Log.d("score", "Retrieved " + scoreList.size() + " scores");
-//                } else {
-//                    Log.d("score", "Error: " + e.getMessage());
-//                }
-//            }
-//        });
+//        int v= patientStatusList.size();
+//        String k = getString(v);
+//
+//        doctorHomeGreeting.setText(k);
+
+
 
 
         return rootView;
@@ -55,4 +53,40 @@ public class DoctorHomeFragment extends Fragment {
     }
 
 
+    public void setText2(String text) {
+        doctorHomeGreeting = (TextView) rootView.findViewById(R.id.texttest); //UPDATE
+
+    }
+
+
+    public void setPatientStatus() {
+
+        try {
+            user.fetch();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        List<String> patientUsernames = user.getList("patientsList");
+
+
+// patient list is a list of usernames unique to Doc
+        for (int i = 0; i < patientUsernames.size(); i++) {
+            Log.v("PatientQuery: ", patientUsernames.get(i));
+            ParseQuery<ParseUser> query = ParseUser.getQuery();
+            query.whereEqualTo("username",patientUsernames.get(i));
+            query.findInBackground(new FindCallback<ParseUser>() {
+                public void done(List<ParseUser> objects, ParseException e) {
+                    if (e == null) {
+                        ParseUser patient = objects.get(0);
+                        String status = patient.getString("patientStatus");
+                        patientStatusList.add(status);
+                    } else {
+                        // Something went wrong.
+                    }
+                }
+            });
+        }
+
+    }
 }

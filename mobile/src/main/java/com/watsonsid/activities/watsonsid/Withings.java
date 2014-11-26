@@ -64,7 +64,7 @@ import javax.crypto.spec.SecretKeySpec;
 
 public class Withings extends Activity {
 
-    private static final String TAG = "WithingsDemo";
+    private static final String TAG = "WithingsOAuth";
     private static final String OAUTH_KEY = "b57fe01deec0d74bc9793042950241d1507c3f4021920b1d9923813f9c6"; // Put your Consumer key here
     private static final String OAUTH_SECRET = "301f19e634d925f2b109879ffed19ef5e6421cb42fe050f4eb2206575969"; // Put your Consumer secret here
     private static final String OAUTH_CALLBACK_SCHEME = "demo"; // Arbitrary, but make sure this matches the scheme in the manifest
@@ -109,7 +109,9 @@ public class Withings extends Activity {
         if (token != null && tokenSecret != null) {
             mConsumer.setTokenWithSecret(token, tokenSecret); // We have tokens, use them
         }
-        new OAuthAuthorizeTask().execute();
+        else {
+            new OAuthAuthorizeTask().execute();
+        }
     }
 
 //        final OAuth oauth = new OAuth(this);
@@ -163,6 +165,7 @@ public class Withings extends Activity {
             String authUrl;
             String message = null;
             try {
+                Log.d(TAG, "Requesting access token");
                 authUrl = mProvider.retrieveRequestToken(mConsumer, OAUTH_CALLBACK_URL);
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(authUrl));
                 startActivity(intent);
@@ -185,11 +188,13 @@ public class Withings extends Activity {
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
             if (result != null) {
+                Log.d(TAG, "Request result: " + result);
+                twitterText.setText(result);
                 Toast.makeText(Withings.this, result, Toast.LENGTH_LONG).show();
             }
         }
     }
-    // Responsible for retrieving access tokens from FitBit on callback
+    // Responsible for retrieving access tokens from Withings on callback
     class RetrieveAccessTokenTask extends AsyncTask<String, Void, String> {
         public Withings myActivity = null;
         public RetrieveAccessTokenTask(Withings myActivity) {
