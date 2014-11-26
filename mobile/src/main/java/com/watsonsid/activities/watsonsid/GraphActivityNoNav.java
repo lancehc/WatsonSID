@@ -1,6 +1,8 @@
 package com.watsonsid.activities.watsonsid;
 
+import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.GestureDetectorCompat;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -16,21 +18,19 @@ import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
-import com.watsonsid.common.navdrawer.AbstractNavDrawerActivity;
 import com.watsonsid.common.OnSwipeTouchListener;
-import com.watsonsid.model_classes.Patient;
+import com.watsonsid.common.navdrawer.AbstractNavDrawerActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.Date;
 
 /**
  * Created by lance on 11/12/14.
  */
-public class GraphActivity extends AbstractNavDrawerActivity {
+public class GraphActivityNoNav extends FragmentActivity {
     private GestureDetectorCompat gestureDetector;
     private final String[] graphNames = new String[]{
             "Heart Rate",
@@ -43,12 +43,11 @@ public class GraphActivity extends AbstractNavDrawerActivity {
     JSONArray bloodOxygenData;
     JSONArray sleepData;
     Boolean isFinishedLoading;
-    @Override
-    protected int getMainLayout() { return R.layout.activity_base; }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_base_no_nav);
         Bundle bundle = getIntent().getExtras();
         isFinishedLoading = false;
         if(bundle != null) {
@@ -152,6 +151,7 @@ public class GraphActivity extends AbstractNavDrawerActivity {
                         JSONObject jsonobject = heartData.getJSONObject(j);
                         String date=jsonobject .getString("dateNum");
                         String value=jsonobject .getString("value");
+                        Log.v("PatientGraph","Heart data point: " + date + ", " + value);
                         heartGraph.appendData(new GraphView.GraphViewData(Double.valueOf(date),Double.valueOf(value)),true,heartData.length());
                     }
                     catch (JSONException e){
@@ -182,8 +182,9 @@ public class GraphActivity extends AbstractNavDrawerActivity {
                 for(int j = 0; j < sleepData.length(); ++j) {
                     try {
                         JSONObject jsonobject = sleepData.getJSONObject(j);
-                        String date=jsonobject .getString("dateNum");
+                        String epochDate=jsonobject .getString("dateNum");
                         String value=jsonobject .getString("value");
+                        String date = new java.text.SimpleDateFormat("MM/dd/yyyy").format(new Date (Integer.valueOf(epochDate)*1000));
                         sleepGraph.appendData(new GraphView.GraphViewData(Double.valueOf(date),Double.valueOf(value)),true,heartData.length());
                     }
                     catch (JSONException e){

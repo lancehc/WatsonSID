@@ -64,6 +64,10 @@
             android:label="@string/app_name" >
         </activity>
         <activity
+            android:name="com.watsonsid.activities.watsonsid.GraphActivityNoNav"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
             android:name="com.watsonsid.activities.watsonsid.WatsonActivity"
             android:label="@string/app_name" >
         </activity>
