@@ -203,10 +203,14 @@ public class ParseSignupFragment extends ParseLoginFragmentBase implements OnCli
 
             if (isDoctor) {
                 user.put("isPatient", false);
+                user.put("patientsList","[]");
             } else {
                 user.put("isPatient", true);
+                user.put("patientStatus","well");
+                user.put("heartRate","[]");
+                user.put("bloodO2","[]");
+                user.put("sleep","[]");
             }
-
 
             // Set additional custom fields only if the user filled it out
             if (name.length() != 0) {

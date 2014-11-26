@@ -1,11 +1,9 @@
 apply plugin: 'android-library'
-
 dependencies {
     compile project(':facebook')
     compile files('libs/OAuth.jar')
     compile files('libs/Parse-1.7.0.jar')
 }
-
 android {
     //compileSdkVersion 20//rootProject.ext.compileSdkVersion
     // buildToolsVersion rootProject.ext.buildToolsVersion
@@ -26,5 +24,3 @@ android {
         }
     }
 }
-
-

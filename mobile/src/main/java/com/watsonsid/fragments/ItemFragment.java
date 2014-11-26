@@ -16,6 +16,7 @@ import com.watsonsid.R;
 
 import com.parse.ParseUser;
 import com.watsonsid.activities.watsonsid.GraphActivity;
+import com.watsonsid.activities.watsonsid.GraphActivityNoNav;
 import com.watsonsid.fragments.dummy.DummyContent;
 import com.watsonsid.model_classes.Patient;
 
@@ -133,7 +134,7 @@ public class ItemFragment extends Fragment implements AbsListView.OnItemClickLis
             mListener.onFragmentInteraction(DummyContent.ITEMS.get(position).id);
         }
         Patient patient = DoctorHomeFragment.patientList.get(position);
-        Intent intent = new Intent(view.getContext(), GraphActivity.class);
+        Intent intent = new Intent(view.getContext(), GraphActivityNoNav.class);
         Bundle b = new Bundle();
         b.putString("patientId", patient.id);
         intent.putExtras(b);
