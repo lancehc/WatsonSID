@@ -3,6 +3,7 @@ package com.watsonsid.activities.watsonsid;
 import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -71,7 +72,9 @@ public class DoctorHome extends Activity implements ItemFragment.OnFragmentInter
 //    }
 
 
-
+    public void watsonClick(View v){
+        startActivity(new Intent(this,WatsonActivityNoNav.class));
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

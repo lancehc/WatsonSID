@@ -4,24 +4,132 @@
     android:layout_height="match_parent"
     android:paddingTop="10dp">
 
-    <TextView
-        android:id="@+id/doctorGreeting"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Yes, I'm a proud E46-er!"
-        android:layout_below="@+id/linearLayout"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="47dp"
-        android:background="@drawable/back"
-        android:clickable="true" />
 
     <LinearLayout
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:id="@+id/linearLayout">
 
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:id="@+id/linearLayoutinner"
+            android:background="@drawable/back"
+            android:layout_margin="10dp">
+
+            <TextView
+                android:id="@+id/doctorGreeting"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Welcome Doc Sammy"
+                android:textColor="#ff2017ac"
+                android:textAppearance="@style/com_facebook_loginview_silver_style"
+                android:layout_below="@+id/linearLayoutinner"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="5dp"
+                android:clickable="false" />
+
+            <TextView
+                android:id="@+id/doctorStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Most of your patients are doing just okay"
+                android:layout_below="@+id/linearLayoutinner"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="5dp"
+                android:clickable="false" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:id="@+id/linearLayoutinner2"
+            android:background="@drawable/back"
+            android:layout_margin="10dp">
+
+            <TextView
+                android:id="@+id/patientSummary"
+                android:textColor="#ff2017ac"
+                android:textAppearance="@style/com_facebook_loginview_silver_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Patient Summary"
+
+                android:layout_below="@+id/linearLayoutinner2"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="5dp"
+                android:clickable="false" />
+
+            <TextView
+                android:id="@+id/sickPatients"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="1 of your patients might be sick"
+                android:layout_below="@+id/linearLayoutinner2"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="5dp"
+                android:clickable="false"
+                android:textColor="#C72E30"/>
+
+            <TextView
+                android:id="@+id/justOkayPatients"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="2 of your patients are just okay"
+                android:layout_below="@+id/linearLayoutinner2"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="5dp"
+                android:clickable="false" />
+
+            <TextView
+                android:id="@+id/finePatients"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="1 of your patients is fine"
+                android:layout_below="@+id/linearLayoutinner2"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="5dp"
+                android:clickable="false" />
+
+        </LinearLayout>
+
     </LinearLayout>
+
+    <Button
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_centerHorizontal="true"
+        android:text="Add Patient"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="80dp"
+        android:background="#05CDFA"/>
+
+
+    <Button
+        android:id="@+id/watson_page"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_centerHorizontal="true"
+        android:text="Go to IBM Watson"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="16dp"
+        android:background="#05CDFA"
+        android:onClick="watsonClick" />
 
 </RelativeLayout>
