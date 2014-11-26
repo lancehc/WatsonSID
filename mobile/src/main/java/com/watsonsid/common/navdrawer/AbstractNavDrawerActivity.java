@@ -16,7 +16,7 @@ import android.widget.ListView;
 
 import com.example.lance.watsonsid.R;
 import com.watsonsid.activities.watsonsid.GraphActivity;
-import com.watsonsid.activities.watsonsid.HomeActivity;
+import com.watsonsid.activities.watsonsid.PatientHomeActivity;
 import com.watsonsid.activities.watsonsid.WatsonActivity;
 
 /**
@@ -65,7 +65,7 @@ public abstract class AbstractNavDrawerActivity extends FragmentActivity {
     void onNavItemSelected(int id) {
         switch ((int)id) {
             case 101:
-                startActivity(new Intent(this, HomeActivity.class));
+                startActivity(new Intent(this, PatientHomeActivity.class));
                 break;
             case 102:
                 startActivity(new Intent(this, WatsonActivity.class));

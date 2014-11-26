@@ -1,0 +1,139 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/patient_home"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="10dp">
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:id="@+id/linearLayout">
+
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:id="@+id/linearLayoutinner"
+            android:background="@drawable/back"
+            android:layout_margin="10dp">
+
+            <TextView
+                android:id="@+id/patientGreeting"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Welcome Neil"
+                android:textColor="#ff2017ac"
+                android:textAppearance="@style/com_facebook_loginview_silver_style"
+                android:layout_below="@+id/linearLayoutinner"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="5dp"
+                android:clickable="false" />
+
+            <TextView
+                android:id="@+id/patientStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="You are healthy"
+                android:layout_below="@+id/linearLayoutinner"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="5dp"
+                android:clickable="false"
+                android:textColor="#ff45c239" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:id="@+id/linearLayoutinner2"
+            android:background="@drawable/back"
+            android:layout_margin="10dp">
+
+            <TextView
+                android:id="@+id/patientSummary"
+                android:textColor="#ff2017ac"
+                android:textAppearance="@style/com_facebook_loginview_silver_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Patient Summary"
+
+                android:layout_below="@+id/linearLayoutinner2"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="5dp"
+                android:clickable="false" />
+
+            <TextView
+                android:id="@+id/heartRate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Your last heart rate was: 72 bpm"
+                android:layout_below="@+id/linearLayoutinner2"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="5dp"
+                android:clickable="false"
+                android:textColor="#ff000000"/>
+
+            <TextView
+                android:id="@+id/bloodOxygen"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Your last blood oxygen level: 96%"
+                android:layout_below="@+id/linearLayoutinner2"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="5dp"
+                android:clickable="false"
+                android:textColor="#ff000000" />
+
+            <TextView
+                android:id="@+id/sleepCycle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Your last REM sleep cycle: 2.3 hrs"
+                android:layout_below="@+id/linearLayoutinner2"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="5dp"
+                android:clickable="false"
+                android:textColor="#ff000000" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <Button
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_centerHorizontal="true"
+        android:text="Check my Vitals"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="80dp"
+        android:background="#05CDFA"
+        android:id="@+id/check_vitals" />
+
+
+    <Button
+        android:id="@+id/watson_page"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_centerHorizontal="true"
+        android:text="Go to IBM Watson"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="16dp"
+        android:background="#05CDFA"/>
+
+</RelativeLayout>

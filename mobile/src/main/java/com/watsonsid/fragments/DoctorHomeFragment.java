@@ -53,9 +53,7 @@ public class DoctorHomeFragment extends Fragment {
 
 
 
-
         return rootView;
-
     }
 
 
@@ -65,10 +63,12 @@ public class DoctorHomeFragment extends Fragment {
             user.fetch();
         } catch (ParseException e) {
             e.printStackTrace();
+            return;
         }
 
         final List<String> patientUsernames = user.getList("patientsList");
         Log.v("PatientQuery: ", "Number of patients for doctor: " + patientUsernames.size());
+
 
 // patient list is a list of usernames unique to Doc
         patientList.clear();
@@ -94,8 +94,8 @@ public class DoctorHomeFragment extends Fragment {
                     if(queriesFinished.intValue() == patientUsernames.size()){
                         setPatientStatus();
                     }
-                }
-            });
+                }}
+            );
         }
 
     }
