@@ -22,7 +22,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.example.lance.watsonsid.R;
+import com.watsonsid.R;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.

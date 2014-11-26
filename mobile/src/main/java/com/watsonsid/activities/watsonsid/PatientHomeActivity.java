@@ -8,7 +8,7 @@ package com.watsonsid.activities.watsonsid;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.example.lance.watsonsid.R;
+import com.watsonsid.R;
 import com.parse.ParseUser;
 import com.watsonsid.common.navdrawer.AbstractNavDrawerActivity;
 import com.watsonsid.fragments.PatientHomeFragment;

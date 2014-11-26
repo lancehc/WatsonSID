@@ -25,7 +25,6 @@ import android.os.Bundle;
 
 import io.oauth.*;
 
-import com.example.lance.watsonsid.R;
 import com.parse.ui.ParseLoginDispatchActivity;
 
 

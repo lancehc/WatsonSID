@@ -18,7 +18,7 @@ import android.view.Window;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.example.lance.watsonsid.R;
+import com.watsonsid.R;
 
 import com.watsonsid.WatsonSIDApplication;
 import com.watsonsid.model_classes.Watson;

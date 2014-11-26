@@ -9,7 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.lance.watsonsid.R;
+import com.watsonsid.R;
 
 public class MainFragment extends Fragment {
     @Override

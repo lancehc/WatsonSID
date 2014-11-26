@@ -6,7 +6,7 @@ import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.app.ActionBar;
 
-import com.example.lance.watsonsid.R;
+import com.watsonsid.R;
 
 public class TabListener implements ActionBar.TabListener {
 

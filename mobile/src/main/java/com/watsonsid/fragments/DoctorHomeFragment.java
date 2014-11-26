@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.app.Fragment;
 import android.widget.TextView;
 
-import com.example.lance.watsonsid.R;
+import com.watsonsid.R;
 
 import com.parse.ParseUser;
 import com.parse.*;

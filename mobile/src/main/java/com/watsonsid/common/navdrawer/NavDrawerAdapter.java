@@ -8,7 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.lance.watsonsid.R;
+import com.watsonsid.R;
 
 /**
  * Created by lance on 11/12/14.

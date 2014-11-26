@@ -19,11 +19,11 @@
 *
 */
 
-package com.watsonsid.activities.watsonsid;
+package com.watsonsid;
 
 import android.app.Application;
 
-import com.example.lance.watsonsid.R;
+import com.watsonsid.R;
 import com.parse.Parse;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseTwitterUtils;

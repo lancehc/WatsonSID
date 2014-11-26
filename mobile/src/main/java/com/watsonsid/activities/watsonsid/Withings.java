@@ -17,7 +17,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.lance.watsonsid.R;
+import com.watsonsid.R;
 
 
 

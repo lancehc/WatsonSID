@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.example.lance.watsonsid.R;
+import com.watsonsid.R;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.watsonsid.activities.watsonsid.GraphActivity;
@@ -45,6 +45,13 @@ public class PatientHomeFragment extends Fragment {
         });
 
         ParseUser user = ParseUser.getCurrentUser();
+
+        /*JSONArray heartData = user.getJSONArray("heartRate");
+        try {
+            Log.v("HeartData last value: ", heartData.get(heartData.length() - 1).toString());
+        } catch(JSONException e) {
+            e.printStackTrace();
+        }*/
 
         ((TextView) ret.findViewById(R.id.patientGreeting)).setText("Welcome " + user.getString("name"));
         ((TextView) ret.findViewById(R.id.patientStatus)).setText("You are " + user.getString("patientStatus"));

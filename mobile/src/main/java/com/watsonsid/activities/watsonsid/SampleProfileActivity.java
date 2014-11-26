@@ -30,7 +30,7 @@
 //import android.view.View.OnClickListener;
 //import android.widget.TextView;
 //
-//import com.example.lance.watsonsid.R;
+//import com.watsonsid.R;
 //import com.parse.ParseUser;
 //
 ///**

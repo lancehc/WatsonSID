@@ -3,7 +3,7 @@ package com.watsonsid.activities.watsonsid;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
-import com.example.lance.watsonsid.R;
+import com.watsonsid.R;
 import com.watsonsid.fragments.WatsonFragment;
 
 public class WatsonActivityNoNav extends FragmentActivity {

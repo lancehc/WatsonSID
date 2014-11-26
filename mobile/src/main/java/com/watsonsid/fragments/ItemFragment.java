@@ -12,7 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.TextView;
-import com.example.lance.watsonsid.R;
+import com.watsonsid.R;
 
 import com.parse.ParseUser;
 import com.watsonsid.activities.watsonsid.GraphActivity;

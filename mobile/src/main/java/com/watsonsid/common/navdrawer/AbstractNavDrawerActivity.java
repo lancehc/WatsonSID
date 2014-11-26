@@ -14,7 +14,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.example.lance.watsonsid.R;
+import com.watsonsid.R;
 import com.watsonsid.activities.watsonsid.GraphActivity;
 import com.watsonsid.activities.watsonsid.PatientHomeActivity;
 import com.watsonsid.activities.watsonsid.WatsonActivity;

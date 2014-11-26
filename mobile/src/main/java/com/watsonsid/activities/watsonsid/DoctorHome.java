@@ -12,7 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.lance.watsonsid.R;
+import com.watsonsid.R;
 import com.watsonsid.fragments.DoctorHomeFragment;
 import com.watsonsid.fragments.ItemFragment;
 

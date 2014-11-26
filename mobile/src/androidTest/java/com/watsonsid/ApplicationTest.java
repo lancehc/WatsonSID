@@ -1,4 +1,4 @@
-package com.example.lance.watsonsid;
+package com.watsonsid;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
