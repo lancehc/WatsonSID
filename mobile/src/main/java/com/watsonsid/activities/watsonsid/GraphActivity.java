@@ -2,6 +2,7 @@ package com.watsonsid.activities.watsonsid;
 
 import android.os.Bundle;
 import android.support.v4.view.GestureDetectorCompat;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -11,8 +12,18 @@ import com.jjoe64.graphview.CustomLabelFormatter;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GraphViewSeries;
 import com.jjoe64.graphview.LineGraphView;
+import com.parse.GetCallback;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
 import com.watsonsid.common.navdrawer.AbstractNavDrawerActivity;
 import com.watsonsid.common.OnSwipeTouchListener;
+import com.watsonsid.model_classes.Patient;
+
+import org.json.JSONArray;
+
+import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by lance on 11/12/14.
@@ -25,12 +36,29 @@ public class GraphActivity extends AbstractNavDrawerActivity {
             "Sleep Duration"};
     private int i = 0;
 
+    String patientId;
     @Override
     protected int getMainLayout() { return R.layout.activity_base; }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Bundle bundle = getIntent().getExtras();
+        if(bundle != null) {
+            patientId = getIntent().getExtras().getString("patientId");
+            ParseQuery<ParseUser> query = ParseUser.getQuery();
+            query.whereEqualTo("ID", patientId);
+            query.getInBackground(patientId, new GetCallback<ParseUser>() {
+                public void done(ParseUser user, ParseException e) {
+                    if (e == null) {
+                        JSONArray heartData = user.getJSONArray("heartRate");
+                        Log.v("PatientQuery: ", heartData.toString());
+                    } else {
+                        Log.v("PatientQuery: ", "ERROR, PATIENT DATA NOT FOUND!");
+                    }
+                }
+            });
+        }
         gestureDetector = new GestureDetectorCompat(this, new OnSwipeTouchListener() {
             @Override
             protected void onSwipeTop() {

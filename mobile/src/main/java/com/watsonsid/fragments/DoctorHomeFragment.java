@@ -1,9 +1,7 @@
 package com.watsonsid.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,9 +12,9 @@ import com.example.lance.watsonsid.R;
 
 import com.parse.ParseUser;
 import com.parse.*;
-import com.watsonsid.activities.watsonsid.SampleDispatchActivity;
-import com.watsonsid.activities.watsonsid.WatsonActivity;
+import com.watsonsid.model_classes.Patient;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -35,14 +33,14 @@ public class DoctorHomeFragment extends Fragment {
 
     ParseUser user = ParseUser.getCurrentUser();
 
-    List<Pair<String,String>> patientStatusList;
+    public static List<Patient> patientList;
 
-    AtomicInteger queriesFinished = new AtomicInteger(0);
+    public static AtomicInteger queriesFinished = new AtomicInteger(0);
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragmentdoctorhome, container, false);
-        patientStatusList = new LinkedList<Pair<String, String>>();
+        patientList = Collections.synchronizedList(new LinkedList<Patient>());
         setPatientStatus();
 
         doctorHomeGreeting = (TextView) rootView.findViewById(R.id.doctorGreeting);
@@ -73,7 +71,7 @@ public class DoctorHomeFragment extends Fragment {
         Log.v("PatientQuery: ", "Number of patients for doctor: " + patientUsernames.size());
 
 // patient list is a list of usernames unique to Doc
-
+        patientList.clear();
         for (int i = 0; i < patientUsernames.size(); i++) {
             String patientId = patientUsernames.get(i);
             Log.v("PatientQuery: ", patientId);
@@ -85,9 +83,10 @@ public class DoctorHomeFragment extends Fragment {
                             ParseUser patient = user;
                             String status = patient.getString("patientStatus");
                             String patientUsername = patient.getString("name");
-                            Pair dataPair = new Pair<String, String>(patientUsername, status);
+                            String patientId = patient.getObjectId();
+                            Patient patientData = new Patient(patientUsername,patientId,status);
                             Log.v("PatientQuery: ", "internal name: " + patientUsername + " status: " + status);
-                            patientStatusList.add(dataPair);
+                            patientList.add(patientData);
                     } else {
                         Log.v("PatientQuery: ","ERROR, PATIENT DATA NOT FOUND!");
                     }
@@ -105,10 +104,10 @@ public class DoctorHomeFragment extends Fragment {
         int sickCount = 0;
         int okCount = 0;
         int fineCount = 0;
-        Log.v("PatientQuery: ", "Number of patient status: " + patientStatusList.size());
-        for(int i = 0; i < patientStatusList.size(); ++i){
-            Pair<String, String> patientPair = patientStatusList.get(i);
-            String patientStatus = patientPair.second;
+        Log.v("PatientQuery: ", "Number of patient status: " + patientList.size());
+        for(int i = 0; i < patientList.size(); ++i){
+            Patient patient = patientList.get(i);
+            String patientStatus = patient.status;
             if(patientStatus == "sick"){
                 sickCount++;
             }
