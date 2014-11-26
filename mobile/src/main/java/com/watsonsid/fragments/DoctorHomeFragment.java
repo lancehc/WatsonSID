@@ -95,8 +95,8 @@ public class DoctorHomeFragment extends Fragment {
                     if(queriesFinished.intValue() == patientUsernames.size()){
                         setPatientStatus();
                     }
-                });
-            }
+                }}
+            );
         }
 
     }
