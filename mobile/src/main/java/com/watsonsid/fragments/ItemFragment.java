@@ -1,6 +1,7 @@
 package com.watsonsid.fragments;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
@@ -14,7 +15,9 @@ import android.widget.TextView;
 import com.example.lance.watsonsid.R;
 
 import com.parse.ParseUser;
+import com.watsonsid.activities.watsonsid.GraphActivity;
 import com.watsonsid.fragments.dummy.DummyContent;
+import com.watsonsid.model_classes.Patient;
 
 /**
  * A fragment representing a list of Items.
@@ -25,6 +28,7 @@ import com.watsonsid.fragments.dummy.DummyContent;
  * Activities containing this fragment MUST implement the {@link Callbacks}
  * interface.
  */
+@SuppressWarnings("JavadocReference")
 public class ItemFragment extends Fragment implements AbsListView.OnItemClickListener {
 
     // TODO: Rename parameter arguments, choose names that match
@@ -128,6 +132,12 @@ public class ItemFragment extends Fragment implements AbsListView.OnItemClickLis
             // fragment is attached to one) that an item has been selected.
             mListener.onFragmentInteraction(DummyContent.ITEMS.get(position).id);
         }
+        Patient patient = DoctorHomeFragment.patientList.get(position);
+        Intent intent = new Intent(view.getContext(), GraphActivity.class);
+        Bundle b = new Bundle();
+        b.putString("patientId", patient.id);
+        intent.putExtras(b);
+        startActivity(intent);
     }
 
     /**

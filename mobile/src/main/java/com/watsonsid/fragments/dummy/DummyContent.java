@@ -1,21 +1,14 @@
 package com.watsonsid.fragments.dummy;
 
-import android.util.Log;
-import android.widget.ArrayAdapter;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.parse.*;
-
-import com.parse.Parse;
-import com.parse.ParseACL;
 import com.parse.ParseUser;
-import com.watsonsid.WatsonSIDApplication;
 
-import com.parse.ui.*;
+import com.watsonsid.fragments.DoctorHomeFragment;
+import com.watsonsid.model_classes.Patient;
 
 /**
  * Helper class for providing sample content for user interfaces created by
@@ -82,21 +75,17 @@ public class DummyContent {
         ITEMS.clear();
 
         ParseUser user = ParseUser.getCurrentUser();
-        List<String> a = user.getList("patientsList");
-
-        for (int i = 0; i < a.size(); i++) {
-
-            String c = a.get(i);
-            DummyItem b = new DummyItem("1", c);
+        List<Patient> patientList = DoctorHomeFragment.patientList;
+        for (int i = 0; i < patientList.size(); i++) {
+            String patientUsername = patientList.get(i).name;
+            DummyItem b = new DummyItem("1", patientUsername);
             addItem(b);
-
         }
 
 
     }
 
     private static void addItem(DummyItem item) {
-
         ITEMS.add(item);
         ITEM_MAP.put(item.id, item);
     }
