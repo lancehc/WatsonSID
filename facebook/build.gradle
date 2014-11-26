@@ -7,8 +7,8 @@ repositories {
 project.group = 'com.facebook.android'
 
 dependencies {
-    compile 'com.android.support:support-v4:20.0.+'
-    compile 'com.parse.bolts:bolts-android:1.1.2'
+    compile files('libs/android-support-v4.jar')
+    compile files('libs/bolts-android-1.1.2.jar')
 }
 
 android {

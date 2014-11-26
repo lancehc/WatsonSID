@@ -53,39 +53,36 @@ public class DoctorHomeFragment extends Fragment {
     }
 
 
-    public void setText2(String text) {
-        doctorHomeGreeting = (TextView) rootView.findViewById(R.id.texttest); //UPDATE
-
-    }
-
-
     public void setPatientStatus() {
 
         try {
             user.fetch();
         } catch (ParseException e) {
             e.printStackTrace();
+            return;
         }
 
         List<String> patientUsernames = user.getList("patientsList");
 
 
-// patient list is a list of usernames unique to Doc
-        for (int i = 0; i < patientUsernames.size(); i++) {
-            Log.v("PatientQuery: ", patientUsernames.get(i));
-            ParseQuery<ParseUser> query = ParseUser.getQuery();
-            query.whereEqualTo("username",patientUsernames.get(i));
-            query.findInBackground(new FindCallback<ParseUser>() {
-                public void done(List<ParseUser> objects, ParseException e) {
-                    if (e == null) {
-                        ParseUser patient = objects.get(0);
-                        String status = patient.getString("patientStatus");
-                        patientStatusList.add(status);
-                    } else {
-                        // Something went wrong.
+        // patient list is a list of usernames unique to Doc
+        if(patientUsernames != null) {
+            for (int i = 0; i < patientUsernames.size(); i++) {
+                Log.v("PatientQuery: ", patientUsernames.get(i));
+                ParseQuery<ParseUser> query = ParseUser.getQuery();
+                query.whereEqualTo("username", patientUsernames.get(i));
+                query.findInBackground(new FindCallback<ParseUser>() {
+                    public void done(List<ParseUser> objects, ParseException e) {
+                        if (e == null) {
+                            ParseUser patient = objects.get(0);
+                            String status = patient.getString("patientStatus");
+                            patientStatusList.add(status);
+                        } else {
+                            // Something went wrong.
+                        }
                     }
-                }
-            });
+                });
+            }
         }
 
     }

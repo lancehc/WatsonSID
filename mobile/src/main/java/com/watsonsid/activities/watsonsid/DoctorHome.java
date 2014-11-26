@@ -19,12 +19,7 @@ import com.parse.*;
 
 import com.parse.ParseUser;
 
-
-
 public class DoctorHome extends Activity implements ItemFragment.OnFragmentInteractionListener {
-
-
-
 
     ActionBar.Tab homeTab, patientListTab;
 
@@ -58,42 +53,6 @@ public class DoctorHome extends Activity implements ItemFragment.OnFragmentInter
 
         homeTab.setTabListener(new TabListener(homeFragmentTab));
         patientListTab.setTabListener(new TabListener(patientFragmentTab));
-
-        // tab listener
-//        homeTab.setTabListener(new ActionBar.TabListener() {
-//            @Override
-//            public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
-//                tab = homeTab;
-//            }
-//
-//            @Override
-//            public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
-//
-//            }
-//
-//            @Override
-//            public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
-//
-//            }
-//        });
-//
-//        patientListTab.setTabListener(new ActionBar.TabListener() {
-//            @Override
-//            public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
-//                tab = patientListTab;
-//
-//            }
-//
-//            @Override
-//            public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
-//
-//            }
-//
-//            @Override
-//            public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
-//
-//            }
-//        });
 
         actionBar.addTab(homeTab);
         actionBar.addTab(patientListTab);
