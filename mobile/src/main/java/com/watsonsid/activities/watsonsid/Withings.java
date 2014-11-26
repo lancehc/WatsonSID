@@ -61,12 +61,14 @@ public class Withings extends Activity implements OAuthCallback{
         setContentView(R.layout.activity_withings);
 
 
+
+
         oauth.initialize("ldTryVrdGOwhuCq8O_XXcUOkL7U");
 
         twitterText = (TextView) findViewById(R.id.twitterText);
         myText = (TextView) findViewById(R.id.myText);
 
-
+        startActivity(new Intent(this, HomeActivity.class));
 
         callback = new OAuthCallback() {
             @Override
@@ -96,6 +98,7 @@ public class Withings extends Activity implements OAuthCallback{
         withingsAccessToken = data.token;
         withingsProvider = data.provider;
         withingsSecret = data.secret;
+
 
 
 
@@ -172,7 +175,7 @@ public class Withings extends Activity implements OAuthCallback{
 
 
 
-        // startActivity(new Intent(this, HomeActivity.class));
+
     }
 
 

@@ -35,5 +35,6 @@ dependencies {
     //compile files('C:/Users/sammy_000/Documents/GitHub/WatsonSID/ParseLoginUI/libs/Parse-1.7.0.jar')
     //compile files('C:/Users/sammy_000/Documents/GitHub/WatsonSID/facebook/libs/bolts-android-1.1.2.jar')
     compile files('libs/OAuth.jar')
+    //compile files('/Users/neilsood/Desktop/481repo/WatsonSID/ParseLoginUI/libs/OAuth.jar')
 }
 
