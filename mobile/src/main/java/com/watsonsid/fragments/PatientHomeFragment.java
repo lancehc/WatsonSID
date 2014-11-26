@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.parse.ParseObject;
 import com.watsonsid.R;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -23,6 +24,8 @@ import com.watsonsid.model_classes.WatsonQueryCallbacks;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.text.ParseException;
 
 public class PatientHomeFragment extends Fragment {
     @Override
@@ -48,16 +51,23 @@ public class PatientHomeFragment extends Fragment {
             }
         });
 
-        ParseUser user = ParseUser.getCurrentUser();
+        ParseUser user = null;
+
+        try {
+            // this is a hackish blocking query, but w/e
+            user = ParseUser.getQuery().get(ParseUser.getCurrentUser().getObjectId());
+        } catch(com.parse.ParseException e) {
+            e.printStackTrace();
+        }
 
         ((TextView) ret.findViewById(R.id.patientGreeting)).setText("Welcome " + user.getString("name"));
         ((TextView) ret.findViewById(R.id.patientStatus)).setText("You are " + user.getString("patientStatus"));
         ((TextView) ret.findViewById(R.id.heartRate)).setText(
-                "Your last heart rate was: " + getLatestValueBeforePresent(user.getJSONArray("heartRate")) + " bpm");
+                "Heart Rate: " + getLatestValueBeforePresent(user.getJSONArray("heartRate")) + " bpm");
         ((TextView) ret.findViewById(R.id.bloodOxygen)).setText(
-                "Your last blood oxygen level was: " + getLatestValueBeforePresent(user.getJSONArray("bloodO2")) + "%");
+                "Blood Oxygen Level: " + getLatestValueBeforePresent(user.getJSONArray("bloodO2")) + "%");
         ((TextView) ret.findViewById(R.id.sleepCycle)).setText(
-                "Your last REM sleep cycle was: " + getLatestValueBeforePresent(user.getJSONArray("sleep")) + " hrs");
+                "REM Sleep Cycle: " + getLatestValueBeforePresent(user.getJSONArray("sleep")) + " hrs");
 
         return ret;
     }
@@ -71,6 +81,8 @@ public class PatientHomeFragment extends Fragment {
                 JSONObject jsonobject = data.getJSONObject(j);
                 String date = jsonobject .getString("dateNum");
                 String value = jsonobject .getString("value");
+                Log.v("DATE: ", date);
+                Log.v("VALUE: ", value);
                 long time = Long.parseLong(date);
                 if(time < currentTime
                         && time > maxTime) {

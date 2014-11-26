@@ -89,9 +89,13 @@ public class GraphActivity extends AbstractNavDrawerActivity {
         GraphView graphView = new LineGraphView(this, graphNames[index]);
         graphView.addSeries(getGraphData(index));
         graphView.setCustomLabelFormatter(getCustomLabelFormatter(index));
+        graphView.getGraphViewStyle().setGridColor(getResources().getColor(R.color.dark_blue));
+        //graphView.getGraphViewStyle().setVerticalLabelsColor(getResources().getColor(R.color.dark_blue));
+        //graphView.getGraphViewStyle().setHorizontalLabelsColor(getResources().getColor(R.color.dark_blue));
         FrameLayout layout = (FrameLayout) findViewById(R.id.content_frame);
         layout.removeAllViews();
         layout.addView(graphView);
+        findViewById(R.id.content_frame).setBackgroundColor(getResources().getColor(R.color.light_blue));
         layout.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -142,58 +146,35 @@ public class GraphActivity extends AbstractNavDrawerActivity {
     }
 
     private GraphViewSeries getGraphData(int index)  {
-        double baseTime = System.currentTimeMillis() / 1000L - 5000.0;
         switch(index) {
             case 0: // heart rate
-                GraphViewSeries heartGraph = new GraphViewSeries(
-                        new GraphView.GraphViewData[]{});
-                for(int j = 0; j < heartData.length(); ++j) {
-                    try {
-                        JSONObject jsonobject = heartData.getJSONObject(j);
-                        String date=jsonobject .getString("dateNum");
-                        String value=jsonobject .getString("value");
-                        heartGraph.appendData(new GraphView.GraphViewData(Double.valueOf(date),Double.valueOf(value)),true,heartData.length());
-                    }
-                    catch (JSONException e){
-                        e.printStackTrace();
-                    }
-
-                }
-                return heartGraph;
+                return jsonToGraphViewSeries(heartData);
             case 1: // blood oxygen content
-                GraphViewSeries bloodO2Graph = new GraphViewSeries(
-                        new GraphView.GraphViewData[]{});
-                for(int j = 0; j < bloodOxygenData.length(); ++j) {
-                    try {
-                        JSONObject jsonobject = bloodOxygenData.getJSONObject(j);
-                        String date=jsonobject .getString("dateNum");
-                        String value=jsonobject .getString("value");
-                        bloodO2Graph.appendData(new GraphView.GraphViewData(Double.valueOf(date),Double.valueOf(value)),true,heartData.length());
-                    }
-                    catch (JSONException e){
-                        e.printStackTrace();
-                    }
-
-                }
-                return bloodO2Graph;
+                return jsonToGraphViewSeries(bloodOxygenData);
             case 2: // sleep duration
-                GraphViewSeries sleepGraph = new GraphViewSeries(
-                        new GraphView.GraphViewData[]{});
-                for(int j = 0; j < sleepData.length(); ++j) {
-                    try {
-                        JSONObject jsonobject = sleepData.getJSONObject(j);
-                        String date=jsonobject .getString("dateNum");
-                        String value=jsonobject .getString("value");
-                        sleepGraph.appendData(new GraphView.GraphViewData(Double.valueOf(date),Double.valueOf(value)),true,heartData.length());
-                    }
-                    catch (JSONException e){
-                        e.printStackTrace();
-                    }
-
-                }
-                return sleepGraph;
+                return jsonToGraphViewSeries(sleepData);
             default:
                 return null;
         }
+    }
+
+    private GraphViewSeries jsonToGraphViewSeries(JSONArray data) {
+        GraphViewSeries graph = new GraphViewSeries(
+                "",
+                new GraphViewSeries.GraphViewSeriesStyle(getResources().getColor(R.color.red), 3),
+                new GraphView.GraphViewData[]{});
+
+        for(int j = 0; j < data.length(); ++j) {
+            try {
+                JSONObject jsonobject = data.getJSONObject(j);
+                String date=jsonobject .getString("dateNum");
+                String value=jsonobject .getString("value");
+                graph.appendData(new GraphView.GraphViewData(Double.valueOf(date),Double.valueOf(value)),true,data.length());
+            }
+            catch (JSONException e){
+                e.printStackTrace();
+            }
+        }
+        return graph;
     }
 }

@@ -3,6 +3,7 @@
     android:id="@+id/patient_home"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/light_blue"
     android:paddingTop="10dp">
 
 
@@ -44,7 +45,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_margin="5dp"
                 android:clickable="false"
-                android:textColor="#ff45c239" />
+                android:textColor="#000000" />
 
         </LinearLayout>
 
@@ -63,7 +64,7 @@
                 android:textAppearance="@style/com_facebook_loginview_silver_style"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Patient Summary"
+                android:text="Recent Vitals"
 
                 android:layout_below="@+id/linearLayoutinner2"
                 android:layout_centerHorizontal="true"
@@ -118,7 +119,7 @@
         android:layout_marginRight="30dp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="80dp"
-        android:background="#05CDFA"
+        android:background="@color/dark_blue"
         android:id="@+id/check_vitals" />
 
 
@@ -134,6 +135,6 @@
         android:layout_marginRight="30dp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="16dp"
-        android:background="#05CDFA"/>
+        android:background="@color/dark_blue"/>
 
 </RelativeLayout>

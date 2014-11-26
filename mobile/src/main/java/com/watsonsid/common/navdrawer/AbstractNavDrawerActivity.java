@@ -41,14 +41,9 @@ public abstract class AbstractNavDrawerActivity extends FragmentActivity {
     protected NavDrawerActivityConfiguration getNavDrawerConfiguration() {
 
         NavDrawerItem[] menu = new NavDrawerItem[] {
-                NavMenuSection.create(100, "Pages"),
                 NavMenuItem.create(101, "Home", "navdrawer_home", false, this),
                 NavMenuItem.create(102, "Ask Watson", "navdrawer_watson", true, this),
-                NavMenuItem.create(103, "View Graphs", "navdrawer_graphs", true, this),
-                NavMenuSection.create(200, "Do we need two sections??"),
-                NavMenuItem.create(202, "Lol", "navdrawer_rating", false, this),
-                NavMenuItem.create(203, "These don't", "navdrawer_eula", false, this),
-                NavMenuItem.create(204, "Do anything!", "navdrawer_quit", false, this)};
+                NavMenuItem.create(103, "View Graphs", "navdrawer_graphs", true, this)};
 
         NavDrawerActivityConfiguration navDrawerActivityConfiguration = new NavDrawerActivityConfiguration();
         // In the future, to use more stuff, change this activity_base layout shit!

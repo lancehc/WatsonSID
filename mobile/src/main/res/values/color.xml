@@ -3,4 +3,10 @@
     <color name="purple_light">#a276eb</color>
     <color name="purple_middle">#8658ce</color>
     <color name="purple_dark">#6a3ab2</color>
+    <color name="light_blue">#85C1F5</color>
+    <color name="dark_blue">#4A789C</color>
+    <color name="green_blue">#7FCA9F</color>
+    <color name="red">#E96D63</color>
+    <color name="orange">#F4BA70</color>
+
 </resources>
