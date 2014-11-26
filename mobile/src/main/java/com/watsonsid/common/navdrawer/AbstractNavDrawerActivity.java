@@ -14,8 +14,10 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.parse.ParseUser;
 import com.watsonsid.R;
 import com.watsonsid.activities.watsonsid.GraphActivity;
+import com.watsonsid.activities.watsonsid.GraphActivityNoNav;
 import com.watsonsid.activities.watsonsid.PatientHomeActivity;
 import com.watsonsid.activities.watsonsid.WatsonActivity;
 
@@ -71,7 +73,11 @@ public abstract class AbstractNavDrawerActivity extends FragmentActivity {
                 startActivity(new Intent(this, WatsonActivity.class));
                 break;
             case 103:
-                startActivity(new Intent(this, GraphActivity.class));
+                Intent intent = new Intent(this, GraphActivity.class);
+                Bundle b = new Bundle();
+                b.putString("patientId", ParseUser.getCurrentUser().getObjectId());
+                intent.putExtras(b);
+                startActivity(intent);
                 break;
         }
     }

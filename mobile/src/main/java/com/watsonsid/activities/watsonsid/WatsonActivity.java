@@ -14,5 +14,5 @@ public class WatsonActivity extends AbstractNavDrawerActivity {
     }
 
     @Override
-    protected int getMainLayout() { return R.layout.activity_base_no_nav; }
+    protected int getMainLayout() { return R.layout.activity_base; }
 }

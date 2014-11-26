@@ -33,7 +33,11 @@ public class PatientHomeFragment extends Fragment {
         ret.findViewById(R.id.check_vitals).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getActivity(), GraphActivity.class));
+                Intent intent = new Intent(getActivity(), GraphActivity.class);
+                Bundle b = new Bundle();
+                b.putString("patientId", ParseUser.getCurrentUser().getObjectId());
+                intent.putExtras(b);
+                startActivity(intent);
             }
         });
 
