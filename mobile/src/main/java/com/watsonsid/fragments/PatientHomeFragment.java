@@ -50,19 +50,38 @@ public class PatientHomeFragment extends Fragment {
 
         ParseUser user = ParseUser.getCurrentUser();
 
-        /*JSONArray heartData = user.getJSONArray("heartRate");
-        try {
-            Log.v("HeartData last value: ", heartData.get(heartData.length() - 1).toString());
-        } catch(JSONException e) {
-            e.printStackTrace();
-        }*/
-
         ((TextView) ret.findViewById(R.id.patientGreeting)).setText("Welcome " + user.getString("name"));
         ((TextView) ret.findViewById(R.id.patientStatus)).setText("You are " + user.getString("patientStatus"));
-        ((TextView) ret.findViewById(R.id.heartRate)).setText("Your last heart rate was: " + 72 + " bpm");
-        ((TextView) ret.findViewById(R.id.bloodOxygen)).setText("Your last blood oxygen level was: " + 96 + "%");
-        ((TextView) ret.findViewById(R.id.sleepCycle)).setText("Your last REM sleep cycle was: " + 2.3 + " hrs");
+        ((TextView) ret.findViewById(R.id.heartRate)).setText(
+                "Your last heart rate was: " + getLatestValueBeforePresent(user.getJSONArray("heartRate")) + " bpm");
+        ((TextView) ret.findViewById(R.id.bloodOxygen)).setText(
+                "Your last blood oxygen level was: " + getLatestValueBeforePresent(user.getJSONArray("bloodO2")) + "%");
+        ((TextView) ret.findViewById(R.id.sleepCycle)).setText(
+                "Your last REM sleep cycle was: " + getLatestValueBeforePresent(user.getJSONArray("sleep")) + " hrs");
 
         return ret;
+    }
+
+    double getLatestValueBeforePresent(JSONArray data) {
+        long currentTime = System.currentTimeMillis() / 1000L;
+        long maxTime = 0L;
+        double maxValue = 0.0;
+        for(int j = 0; j < data.length(); ++j) {
+            try {
+                JSONObject jsonobject = data.getJSONObject(j);
+                String date = jsonobject .getString("dateNum");
+                String value = jsonobject .getString("value");
+                long time = Long.parseLong(date);
+                if(time < currentTime
+                        && time > maxTime) {
+                    maxTime = time;
+                    maxValue = Double.parseDouble(value);
+                }
+            }
+            catch (JSONException e){
+                e.printStackTrace();
+            }
+        }
+        return maxValue;
     }
 }
