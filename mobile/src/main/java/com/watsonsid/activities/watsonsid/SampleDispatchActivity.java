@@ -26,6 +26,7 @@ import android.os.Bundle;
 import io.oauth.*;
 
 import com.example.lance.watsonsid.R;
+import com.parse.ParseUser;
 import com.parse.ui.ParseLoginDispatchActivity;
 
 
@@ -49,7 +50,15 @@ public class SampleDispatchActivity extends ParseLoginDispatchActivity {
 
         @Override
   protected Class<?> getTargetClass() {
-    return PatientHomeActivity.class;
+    ParseUser user = ParseUser.getCurrentUser();
+            Boolean isPatient = user.getBoolean("isPatient");
+            if(isPatient){
+                return PatientHomeActivity.class;
+            }
+            else{
+                return DoctorHome.class;
+            }
+
   }
 
 
