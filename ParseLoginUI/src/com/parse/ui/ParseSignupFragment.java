@@ -37,6 +37,8 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
+import org.json.JSONArray;
+
 /**
  * Fragment for the user signup screen.
  */
@@ -192,7 +194,7 @@ public class ParseSignupFragment extends ParseLoginFragmentBase implements OnCli
         } else if (name != null && name.length() == 0) {
             showToast(R.string.com_parse_ui_no_name_toast);
         } else if (!doctorButton.isChecked() && !patientButton.isChecked()) {
-            showToast("Please select doctor or patient... pls");
+            showToast("Please select doctor or patient");
         } else {
             ParseUser user = new ParseUser();
 
@@ -203,13 +205,13 @@ public class ParseSignupFragment extends ParseLoginFragmentBase implements OnCli
 
             if (isDoctor) {
                 user.put("isPatient", false);
-                user.put("patientsList","[]");
+                user.put("patientsList", new JSONArray());
             } else {
                 user.put("isPatient", true);
                 user.put("patientStatus","well");
-                user.put("heartRate","[]");
-                user.put("bloodO2","[]");
-                user.put("sleep","[]");
+                user.put("heartRate", new JSONArray());
+                user.put("bloodO2", new JSONArray());
+                user.put("sleep", new JSONArray());
             }
 
             // Set additional custom fields only if the user filled it out
@@ -245,7 +247,7 @@ public class ParseSignupFragment extends ParseLoginFragmentBase implements OnCli
                                     showToast(R.string.com_parse_ui_email_taken_toast);
                                     break;
                                 default:
-                                    showToast(R.string.com_parse_ui_signup_failed_unknown_toast);
+                                    showToast(R.string.com_parse_ui_signup_failed_unknown_toast + " " + e.toString());
                             }
                         }
                     }

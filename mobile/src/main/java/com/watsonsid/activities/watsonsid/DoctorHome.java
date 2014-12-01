@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.parse.ui.ParseLoginActivity;
 import com.watsonsid.R;
 import com.watsonsid.fragments.DoctorHomeFragment;
 import com.watsonsid.fragments.ItemFragment;
@@ -71,6 +72,12 @@ public class DoctorHome extends Activity implements ItemFragment.OnFragmentInter
 //
 //    }
 
+
+    public void logoutClick(View v) {
+        ParseUser.logOut();
+        Intent logoutIntent = new Intent(this, ParseLoginActivity.class);
+        startActivity(logoutIntent);
+    }
 
     public void watsonClick(View v){
         startActivity(new Intent(this,WatsonActivityNoNav.class));

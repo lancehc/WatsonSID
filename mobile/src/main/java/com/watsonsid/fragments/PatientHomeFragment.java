@@ -2,6 +2,7 @@ package com.watsonsid.fragments;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -60,16 +61,47 @@ public class PatientHomeFragment extends Fragment {
             e.printStackTrace();
         }
 
+        double heartRate = getLatestValueBeforePresent(user.getJSONArray("heartRate"));
+        double bloodO2 = getLatestValueBeforePresent(user.getJSONArray("bloodO2"));
+        double sleep = getLatestValueBeforePresent(user.getJSONArray("sleep"));
+        String patientStatus = getPatientStatus(heartRate, bloodO2, sleep);
+        user.put("patientStatus", patientStatus);
+
         ((TextView) ret.findViewById(R.id.patientGreeting)).setText("Welcome " + user.getString("name"));
-        ((TextView) ret.findViewById(R.id.patientStatus)).setText("You are " + user.getString("patientStatus"));
+
+        TextView patientStatusView = ((TextView) ret.findViewById(R.id.patientStatus));
+        patientStatusView.setText("You are " + patientStatus);
+        if(patientStatus.equals("well"))
+            patientStatusView.setTextColor(Color.GREEN);
+        if(patientStatus.equals("just ok"))
+            patientStatusView.setTextColor(Color.BLACK);
+        if(patientStatus.equals("sick"))
+            patientStatusView.setTextColor(Color.RED);
+
         ((TextView) ret.findViewById(R.id.heartRate)).setText(
-                "Heart Rate: " + getLatestValueBeforePresent(user.getJSONArray("heartRate")) + " bpm");
+                "Heart Rate: " + heartRate + " bpm");
         ((TextView) ret.findViewById(R.id.bloodOxygen)).setText(
-                "Blood Oxygen Level: " + getLatestValueBeforePresent(user.getJSONArray("bloodO2")) + "%");
+                "Blood Oxygen Level: " + bloodO2 + "%");
         ((TextView) ret.findViewById(R.id.sleepCycle)).setText(
-                "REM Sleep Cycle: " + getLatestValueBeforePresent(user.getJSONArray("sleep")) + " hrs");
+                "REM Sleep Cycle: " + sleep + " hrs");
 
         return ret;
+    }
+
+    String getPatientStatus(double heartRate, double bloodO2, double sleep) {
+        int failureCount = 0;
+        if(heartRate > 90.0)
+            ++failureCount;
+        if(bloodO2 < 90.0)
+            ++failureCount;
+        if(sleep < 6.0)
+            ++failureCount;
+        if(failureCount == 0)
+            return "well";
+        else if(failureCount == 1)
+            return "just ok";
+        else
+            return "sick";
     }
 
     double getLatestValueBeforePresent(JSONArray data) {

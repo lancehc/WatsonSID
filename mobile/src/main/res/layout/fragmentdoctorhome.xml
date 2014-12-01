@@ -103,33 +103,46 @@
 
     </LinearLayout>
 
-    <Button
-        android:layout_alignParentBottom="true"
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-
-        android:layout_centerHorizontal="true"
-        android:text="Add Patient"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="80dp"
-        android:background="#05CDFA"/>
-
-
-    <Button
-        android:id="@+id/watson_page"
         android:layout_alignParentBottom="true"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:id="@+id/linearLayoutButtons">
 
-        android:layout_centerHorizontal="true"
-        android:text="Go to IBM Watson"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="16dp"
-        android:background="#05CDFA"
-        android:onClick="watsonClick" />
+        <Button
+            android:id="@+id/add_patient_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerHorizontal="true"
+            android:text="Add Patient"
+            android:layout_margin="10dp"
+            android:background="#05CDFA"/>
+
+
+        <Button
+            android:id="@+id/watson_page"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerHorizontal="true"
+            android:text="Go to IBM Watson"
+            android:layout_margin="10dp"
+            android:background="#05CDFA"
+            android:onClick="watsonClick" />
+
+        <Button
+            android:id="@+id/doctor_logout_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerHorizontal="true"
+            android:text="Logout"
+            android:layout_margin="10dp"
+            android:background="#05CDFA"
+            android:onClick="logoutClick" />
+
+    </LinearLayout>
 
 </RelativeLayout>

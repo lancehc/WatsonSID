@@ -15,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.parse.ParseUser;
+import com.parse.ui.ParseLoginActivity;
 import com.watsonsid.R;
 import com.watsonsid.activities.watsonsid.GraphActivity;
 import com.watsonsid.activities.watsonsid.GraphActivityNoNav;
@@ -43,7 +44,9 @@ public abstract class AbstractNavDrawerActivity extends FragmentActivity {
         NavDrawerItem[] menu = new NavDrawerItem[] {
                 NavMenuItem.create(101, "Home", "navdrawer_home", false, this),
                 NavMenuItem.create(102, "Ask Watson", "navdrawer_watson", true, this),
-                NavMenuItem.create(103, "View Graphs", "navdrawer_graphs", true, this)};
+                NavMenuItem.create(103, "View Graphs", "navdrawer_graphs", true, this),
+                NavMenuItem.create(104, "Logout", "navdrawer_logout", true, this)};
+
 
         NavDrawerActivityConfiguration navDrawerActivityConfiguration = new NavDrawerActivityConfiguration();
         // In the future, to use more stuff, change this activity_base layout shit!
@@ -68,11 +71,16 @@ public abstract class AbstractNavDrawerActivity extends FragmentActivity {
                 startActivity(new Intent(this, WatsonActivity.class));
                 break;
             case 103:
-                Intent intent = new Intent(this, GraphActivity.class);
+                Intent graphIntent = new Intent(this, GraphActivity.class);
                 Bundle b = new Bundle();
                 b.putString("patientId", ParseUser.getCurrentUser().getObjectId());
-                intent.putExtras(b);
-                startActivity(intent);
+                graphIntent.putExtras(b);
+                startActivity(graphIntent);
+                break;
+            case 104:
+                ParseUser.logOut();
+                Intent logoutIntent = new Intent(this, ParseLoginActivity.class);
+                startActivity(logoutIntent);
                 break;
         }
     }
