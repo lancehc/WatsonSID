@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import com.parse.ui.ParseLoginActivity;
 import com.watsonsid.R;
@@ -20,6 +21,8 @@ import com.watsonsid.fragments.ItemFragment;
 import com.parse.*;
 
 import com.parse.ParseUser;
+
+import org.json.JSONArray;
 
 public class DoctorHome extends Activity implements ItemFragment.OnFragmentInteractionListener {
 
@@ -73,6 +76,17 @@ public class DoctorHome extends Activity implements ItemFragment.OnFragmentInter
 //    }
 
 
+    public void addPatientClick(View v) {
+        ParseUser user = ParseUser.getCurrentUser();
+        JSONArray patients = user.getJSONArray("patientsList");
+        EditText text = ((EditText) findViewById(R.id.add_patient_text));
+        String newPatient = text.getText().toString();
+        text.setText("");
+        patients.put(newPatient);
+        user.put("patientsList", patients);
+        user.saveInBackground();
+    }
+
     public void logoutClick(View v) {
         ParseUser.logOut();
         Intent logoutIntent = new Intent(this, ParseLoginActivity.class);
@@ -82,6 +96,7 @@ public class DoctorHome extends Activity implements ItemFragment.OnFragmentInter
     public void watsonClick(View v){
         startActivity(new Intent(this,WatsonActivityNoNav.class));
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

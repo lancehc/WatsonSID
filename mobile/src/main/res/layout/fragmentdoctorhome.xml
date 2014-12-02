@@ -2,6 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true"
     android:paddingTop="10dp">
 
 
@@ -110,16 +112,29 @@
         android:layout_alignParentBottom="true"
         android:id="@+id/linearLayoutButtons">
 
-        <Button
-            android:id="@+id/add_patient_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+        <LinearLayout
             android:layout_alignParentStart="true"
-            android:layout_centerHorizontal="true"
-            android:text="Add Patient"
-            android:layout_margin="10dp"
-            android:background="#05CDFA"/>
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_width="fill_parent">
 
+            <EditText
+                android:id="@+id/add_patient_text"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Patient ID"/>
+
+            <Button
+                android:id="@+id/add_patient_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add Patient"
+                android:layout_margin="10dp"
+                android:background="#05CDFA"
+                android:onClick="addPatientClick"/>
+
+        </LinearLayout>
 
         <Button
             android:id="@+id/watson_page"

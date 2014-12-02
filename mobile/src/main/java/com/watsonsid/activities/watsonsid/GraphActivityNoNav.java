@@ -141,60 +141,31 @@ public class GraphActivityNoNav extends FragmentActivity {
     }
 
     private GraphViewSeries getGraphData(int index)  {
-        double baseTime = System.currentTimeMillis() / 1000L - 5000.0;
         switch(index) {
             case 0: // heart rate
-                GraphViewSeries heartGraph = new GraphViewSeries(
-                        new GraphView.GraphViewData[]{});
-                for(int j = 0; j < heartData.length(); ++j) {
-                    try {
-                        JSONObject jsonobject = heartData.getJSONObject(j);
-                        String date=jsonobject .getString("dateNum");
-                        String value=jsonobject .getString("value");
-                        Log.v("PatientGraph","Heart data point: " + date + ", " + value);
-                        heartGraph.appendData(new GraphView.GraphViewData(Double.valueOf(date),Double.valueOf(value)),true,heartData.length());
-                    }
-                    catch (JSONException e){
-                        e.printStackTrace();
-                    }
-
-                }
-                return heartGraph;
+                return jsonToGraphViewSeries(heartData);
             case 1: // blood oxygen content
-                GraphViewSeries bloodO2Graph = new GraphViewSeries(
-                        new GraphView.GraphViewData[]{});
-                for(int j = 0; j < bloodOxygenData.length(); ++j) {
-                    try {
-                        JSONObject jsonobject = bloodOxygenData.getJSONObject(j);
-                        String date=jsonobject .getString("dateNum");
-                        String value=jsonobject .getString("value");
-                        bloodO2Graph.appendData(new GraphView.GraphViewData(Double.valueOf(date),Double.valueOf(value)),true,heartData.length());
-                    }
-                    catch (JSONException e){
-                        e.printStackTrace();
-                    }
-
-                }
-                return bloodO2Graph;
+                return jsonToGraphViewSeries(bloodOxygenData);
             case 2: // sleep duration
-                GraphViewSeries sleepGraph = new GraphViewSeries(
-                        new GraphView.GraphViewData[]{});
-                for(int j = 0; j < sleepData.length(); ++j) {
-                    try {
-                        JSONObject jsonobject = sleepData.getJSONObject(j);
-                        String epochDate=jsonobject .getString("dateNum");
-                        String value=jsonobject .getString("value");
-                        String date = new java.text.SimpleDateFormat("MM/dd/yyyy").format(new Date (Integer.valueOf(epochDate)*1000));
-                        sleepGraph.appendData(new GraphView.GraphViewData(Double.valueOf(date),Double.valueOf(value)),true,heartData.length());
-                    }
-                    catch (JSONException e){
-                        e.printStackTrace();
-                    }
-
-                }
-                return sleepGraph;
+                return jsonToGraphViewSeries(sleepData);
             default:
                 return null;
         }
+    }
+    private GraphViewSeries jsonToGraphViewSeries(JSONArray data) {
+        GraphViewSeries graph = new GraphViewSeries(
+                new GraphView.GraphViewData[]{});
+        for(int j = 0; j < data.length(); ++j) {
+            try {
+                JSONObject jsonobject = data.getJSONObject(j);
+                String date=jsonobject .getString("dateNum");
+                String value=jsonobject .getString("value");
+                graph.appendData(new GraphView.GraphViewData(Double.valueOf(date),Double.valueOf(value)),true,data.length());
+            }
+            catch (JSONException e){
+                e.printStackTrace();
+            }
+        }
+        return graph;
     }
 }
