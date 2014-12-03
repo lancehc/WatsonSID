@@ -123,7 +123,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:hint="Patient ID"/>
+                android:hint="Patient Email"/>
 
             <Button
                 android:id="@+id/add_patient_button"

@@ -24,6 +24,8 @@ import com.parse.ParseUser;
 
 import org.json.JSONArray;
 
+import java.util.List;
+
 public class DoctorHome extends Activity implements ItemFragment.OnFragmentInteractionListener {
 
     ActionBar.Tab homeTab, patientListTab;
@@ -78,13 +80,21 @@ public class DoctorHome extends Activity implements ItemFragment.OnFragmentInter
 
     public void addPatientClick(View v) {
         ParseUser user = ParseUser.getCurrentUser();
-        JSONArray patients = user.getJSONArray("patientsList");
         EditText text = ((EditText) findViewById(R.id.add_patient_text));
-        String newPatient = text.getText().toString();
+        String newPatientEmail = text.getText().toString();
         text.setText("");
-        patients.put(newPatient);
-        user.put("patientsList", patients);
-        user.saveInBackground();
+        try {
+            List<ParseUser> result = ParseUser.getQuery().whereEqualTo("email", newPatientEmail).find();
+            if(result.size() > 0) {
+                String newPatientId = result.get(0).getObjectId();
+                JSONArray patients = user.getJSONArray("patientsList");
+                patients.put(newPatientId);
+                user.put("patientsList", patients);
+                user.saveInBackground();
+            }
+        } catch(ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     public void logoutClick(View v) {
