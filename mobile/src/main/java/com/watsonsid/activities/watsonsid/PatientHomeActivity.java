@@ -8,6 +8,7 @@ package com.watsonsid.activities.watsonsid;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.parse.ParsePush;
 import com.watsonsid.R;
 import com.parse.ParseUser;
 import com.watsonsid.common.navdrawer.AbstractNavDrawerActivity;
@@ -20,6 +21,8 @@ public class PatientHomeActivity extends AbstractNavDrawerActivity {
 
     ParseUser user = ParseUser.getCurrentUser();
 
+
+
     @Override
     protected int getMainLayout() { return R.layout.activity_base; }
 
@@ -27,6 +30,9 @@ public class PatientHomeActivity extends AbstractNavDrawerActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //startActivity(new Intent(this, PatientHomeActivity.class));
+
+
+
         getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, new PatientHomeFragment()).commit();
     }
 }

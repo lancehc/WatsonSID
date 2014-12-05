@@ -1,14 +1,23 @@
 package com.watsonsid.activities.watsonsid;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.Fragment;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.GestureDetectorCompat;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import com.parse.Parse;
+import com.parse.ParsePush;
+import com.parse.PushService;
 import com.watsonsid.R;
 import com.jjoe64.graphview.CustomLabelFormatter;
 import com.jjoe64.graphview.GraphView;
@@ -43,6 +52,10 @@ public class GraphActivityNoNav extends FragmentActivity {
     JSONArray bloodOxygenData;
     JSONArray sleepData;
     Boolean isFinishedLoading;
+    ParseUser user;
+    AlertDialog alertDialog;
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -82,7 +95,50 @@ public class GraphActivityNoNav extends FragmentActivity {
                 }
             }
         });
+
+
+
     }
+
+
+    private void makeDialong() {
+        new AlertDialog.Builder(this)
+                .setTitle("Alert Patient of Vitals")
+                .setMessage("Are you sure you want to alert the " + patientId + "?")
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        user = user.getCurrentUser();
+
+                        ParsePush push = new ParsePush();
+//                        PushService.subscribe(context, "channel", Activity.class)
+
+                        push.setChannel(patientId);
+                        push.setMessage("Your Doctor sees something troubling with your vitals");
+                        push.sendInBackground();
+
+                        Log.d("pushsent", "push sent to doc");
+
+                    }
+                    }
+
+                    )
+                            .
+
+                    setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // do nothing
+                                }
+                            }
+
+                    )
+                            .
+
+                    setIcon(android.R.drawable.ic_dialog_alert)
+
+                    .
+
+                    show();
+                }
 
     private void setGraphVisual(int index) {
         GraphView graphView = new LineGraphView(this, graphNames[index]);
@@ -168,4 +224,35 @@ public class GraphActivityNoNav extends FragmentActivity {
         }
         return graph;
     }
+
+    // adding alert menu
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu items for use in the action bar
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.doctor_graphs, menu);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    // handle click
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items
+        switch (item.getItemId()) {
+            case R.id.action_alert:
+                // send parse notification
+//                openSearch();
+
+                makeDialong();
+
+
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+
 }

@@ -34,6 +34,7 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 
 import com.parse.ParseException;
+import com.parse.ParsePush;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
@@ -202,6 +203,8 @@ public class ParseSignupFragment extends ParseLoginFragmentBase implements OnCli
             user.setUsername(username);
             user.setPassword(password);
             user.setEmail(email);
+            // subsrcibe to objectID channel for push
+            ParsePush.subscribeInBackground(user.getObjectId());
 
             if (isDoctor) {
                 user.put("isPatient", false);

@@ -22,23 +22,46 @@
 package com.watsonsid;
 
 import android.app.Application;
+import android.util.Log;
 
+import com.parse.ui.ParseLoginDispatchActivity;
 import com.watsonsid.R;
+import com.parse.*;
 import com.parse.Parse;
+import com.parse.ParsePush;
+import com.parse.SaveCallback;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseTwitterUtils;
+import com.watsonsid.activities.watsonsid.PatientHomeActivity;
+import com.watsonsid.activities.watsonsid.SampleDispatchActivity;
 
 import io.oauth.*;
 
 public class SampleApplication extends Application {
-  @Override
-  public void onCreate() {
-    super.onCreate();
-    // Required - Initialize the Parse SDK
-    Parse.initialize(this, "YpomqSw56fhDwsYPz96BKuqNwTMfK5xA1ShH6sf8"
-            ,"mtIPb4TfldPpGzn1obECJKMxyeNGoztmcG8RRVKl");
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        // Required - Initialize the Parse SDK
+        Parse.initialize(this, "YpomqSw56fhDwsYPz96BKuqNwTMfK5xA1ShH6sf8"
+                , "mtIPb4TfldPpGzn1obECJKMxyeNGoztmcG8RRVKl");
 
-    Parse.setLogLevel(Parse.LOG_LEVEL_DEBUG);
+        Parse.setLogLevel(Parse.LOG_LEVEL_DEBUG);
+
+//        PushService.setDefaultPushCallback(this, PatientHomeActivity.class);
+        PushService.setDefaultPushCallback(this, ParseLoginDispatchActivity.class);
+        ParseInstallation.getCurrentInstallation().saveInBackground();
+
+        // Push service
+        ParsePush.subscribeInBackground("", new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    Log.d("com.parse.push", "successfully subscribed to the broadcast channel.");
+                } else {
+                    Log.e("com.parse.push", "failed to subscribe for push", e);
+                }
+            }
+        });
 
 
 
@@ -50,5 +73,8 @@ public class SampleApplication extends Application {
 //    // remove this line (and other related ParseTwitterUtils calls)
 //    ParseTwitterUtils.initialize(getString(R.string.twitter_consumer_key),
 //        getString(R.string.twitter_consumer_secret));
-  }
+    }
+
+
+
 }
