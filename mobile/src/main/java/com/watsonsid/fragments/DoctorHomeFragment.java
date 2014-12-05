@@ -1,11 +1,12 @@
 package com.watsonsid.fragments;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.app.Fragment;
+
 import android.widget.TextView;
 
 import com.watsonsid.R;
@@ -31,7 +32,7 @@ public class DoctorHomeFragment extends Fragment {
 
     View rootView;
 
-    ParseUser user = ParseUser.getCurrentUser();
+    static ParseUser user = ParseUser.getCurrentUser();
 
     public static List<Patient> patientList;
 
@@ -57,7 +58,7 @@ public class DoctorHomeFragment extends Fragment {
     }
 
 
-    public void setPatientStatus() {
+    public static void setPatientStatus() {
 
         try {
             user.fetch();

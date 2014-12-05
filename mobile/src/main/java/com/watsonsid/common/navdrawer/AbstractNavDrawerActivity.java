@@ -1,5 +1,6 @@
 package com.watsonsid.common.navdrawer;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -17,10 +18,8 @@ import android.widget.ListView;
 import com.parse.ParseUser;
 import com.parse.ui.ParseLoginActivity;
 import com.watsonsid.R;
-import com.watsonsid.activities.watsonsid.GraphActivity;
-import com.watsonsid.activities.watsonsid.GraphActivityNoNav;
-import com.watsonsid.activities.watsonsid.PatientHomeActivity;
-import com.watsonsid.activities.watsonsid.WatsonActivity;
+
+import java.io.File;
 
 /**
  * Created by lance on 11/12/14.
@@ -39,51 +38,9 @@ public abstract class AbstractNavDrawerActivity extends FragmentActivity {
 
     protected abstract int getMainLayout();
 
-    protected NavDrawerActivityConfiguration getNavDrawerConfiguration() {
+    protected abstract NavDrawerActivityConfiguration getNavDrawerConfiguration();
 
-        NavDrawerItem[] menu = new NavDrawerItem[] {
-                NavMenuItem.create(101, "Home", "navdrawer_home", false, this),
-                NavMenuItem.create(102, "Ask Watson", "navdrawer_watson", true, this),
-                NavMenuItem.create(103, "View Graphs", "navdrawer_graphs", true, this),
-                NavMenuItem.create(104, "Logout", "navdrawer_logout", true, this)};
-
-
-        NavDrawerActivityConfiguration navDrawerActivityConfiguration = new NavDrawerActivityConfiguration();
-        // In the future, to use more stuff, change this activity_base layout shit!
-        navDrawerActivityConfiguration.setMainLayout(getMainLayout());
-        navDrawerActivityConfiguration.setDrawerLayoutId(R.id.drawer_layout);
-        navDrawerActivityConfiguration.setLeftDrawerId(R.id.left_drawer);
-        navDrawerActivityConfiguration.setNavItems(menu);
-        navDrawerActivityConfiguration.setDrawerShadow(R.drawable.drawer_shadow);
-        navDrawerActivityConfiguration.setDrawerOpenDesc(R.string.drawer_open);
-        navDrawerActivityConfiguration.setDrawerCloseDesc(R.string.drawer_close);
-        navDrawerActivityConfiguration.setBaseAdapter(
-                new NavDrawerAdapter(this, R.layout.navdrawer_item, menu ));
-        return navDrawerActivityConfiguration;
-    }
-
-    void onNavItemSelected(int id) {
-        switch ((int)id) {
-            case 101:
-                startActivity(new Intent(this, PatientHomeActivity.class));
-                break;
-            case 102:
-                startActivity(new Intent(this, WatsonActivity.class));
-                break;
-            case 103:
-                Intent graphIntent = new Intent(this, GraphActivity.class);
-                Bundle b = new Bundle();
-                b.putString("patientId", ParseUser.getCurrentUser().getObjectId());
-                graphIntent.putExtras(b);
-                startActivity(graphIntent);
-                break;
-            case 104:
-                ParseUser.logOut();
-                Intent logoutIntent = new Intent(this, ParseLoginActivity.class);
-                startActivity(logoutIntent);
-                break;
-        }
-    }
+    abstract void onNavItemSelected(int id);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -214,5 +171,10 @@ public abstract class AbstractNavDrawerActivity extends FragmentActivity {
     public void setTitle(CharSequence title) {
         mTitle = title;
         getActionBar().setTitle(mTitle);
+    }
+
+    protected void logout() {
+        ParseUser.logOut();
+        finish();
     }
 }

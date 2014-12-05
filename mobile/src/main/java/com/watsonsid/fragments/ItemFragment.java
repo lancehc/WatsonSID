@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
@@ -20,15 +19,12 @@ import com.parse.ParseException;
 import com.watsonsid.R;
 
 import com.parse.ParseUser;
-import com.watsonsid.activities.watsonsid.GraphActivity;
-import com.watsonsid.activities.watsonsid.GraphActivityNoNav;
+import com.watsonsid.activities.watsonsid.GraphActivityDoctor;
 import com.watsonsid.fragments.dummy.DummyContent;
 import com.watsonsid.model_classes.Patient;
 
 import org.json.JSONArray;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -146,7 +142,7 @@ public class ItemFragment extends Fragment implements AbsListView.OnItemClickLis
         }
         Patient patient = DoctorHomeFragment.patientList.get(position);
         Log.v("PatientList:", view.toString());
-        Intent intent = new Intent(view.getContext(), GraphActivityNoNav.class);
+        Intent intent = new Intent(view.getContext(), GraphActivityDoctor.class);
         Bundle b = new Bundle();
         b.putString("patientId", patient.id);
         intent.putExtras(b);
@@ -208,7 +204,7 @@ public class ItemFragment extends Fragment implements AbsListView.OnItemClickLis
                 }
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(view.getContext(), GraphActivityNoNav.class);
+                    Intent intent = new Intent(view.getContext(), GraphActivityDoctor.class);
                     Bundle b = new Bundle();
                     b.putString("patientId", patientId);
                     intent.putExtras(b);

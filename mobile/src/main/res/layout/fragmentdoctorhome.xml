@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/light_blue"
     android:descendantFocusability="beforeDescendants"
     android:focusableInTouchMode="true"
     android:paddingTop="10dp">
@@ -131,10 +132,21 @@
                 android:layout_height="wrap_content"
                 android:text="Add Patient"
                 android:layout_margin="10dp"
-                android:background="#05CDFA"
+                android:background="@color/dark_blue"
                 android:onClick="addPatientClick"/>
 
         </LinearLayout>
+
+        <Button
+            android:id="@+id/patients_page"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerHorizontal="true"
+            android:text="View Patient List"
+            android:layout_margin="10dp"
+            android:background="@color/dark_blue"
+            android:onClick="patientsClick" />
 
         <Button
             android:id="@+id/watson_page"
@@ -144,19 +156,8 @@
             android:layout_centerHorizontal="true"
             android:text="Go to IBM Watson"
             android:layout_margin="10dp"
-            android:background="#05CDFA"
+            android:background="@color/dark_blue"
             android:onClick="watsonClick" />
-
-        <Button
-            android:id="@+id/doctor_logout_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_centerHorizontal="true"
-            android:text="Logout"
-            android:layout_margin="10dp"
-            android:background="#05CDFA"
-            android:onClick="logoutClick" />
 
     </LinearLayout>
 

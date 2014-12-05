@@ -4,9 +4,10 @@ import android.os.Bundle;
 
 import com.watsonsid.R;
 import com.watsonsid.common.navdrawer.AbstractNavDrawerActivity;
+import com.watsonsid.common.navdrawer.AbstractNavDrawerActivityPatient;
 import com.watsonsid.fragments.WatsonFragment;
 
-public class WatsonActivity extends AbstractNavDrawerActivity {
+public class WatsonPatientActivity extends AbstractNavDrawerActivityPatient {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

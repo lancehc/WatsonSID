@@ -1,6 +1,5 @@
 package com.watsonsid.fragments;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -9,24 +8,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.TextView;
 
-import com.parse.ParseObject;
 import com.watsonsid.R;
-import com.parse.ParseQuery;
 import com.parse.ParseUser;
-import com.watsonsid.activities.watsonsid.GraphActivity;
-import com.watsonsid.activities.watsonsid.PatientHomeActivity;
-import com.watsonsid.activities.watsonsid.WatsonActivity;
-import com.watsonsid.model_classes.Watson;
-import com.watsonsid.model_classes.WatsonQueryCallbacks;
+import com.watsonsid.activities.watsonsid.GraphActivityPatient;
+import com.watsonsid.activities.watsonsid.WatsonPatientActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.text.ParseException;
 
 public class PatientHomeFragment extends Fragment {
     @Override
@@ -37,7 +28,7 @@ public class PatientHomeFragment extends Fragment {
         ret.findViewById(R.id.check_vitals).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), GraphActivity.class);
+                Intent intent = new Intent(getActivity(), GraphActivityPatient.class);
                 Bundle b = new Bundle();
                 b.putString("patientId", ParseUser.getCurrentUser().getObjectId());
                 intent.putExtras(b);
@@ -48,7 +39,7 @@ public class PatientHomeFragment extends Fragment {
         ret.findViewById(R.id.watson_page).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getActivity(), WatsonActivity.class));
+                startActivity(new Intent(getActivity(), WatsonPatientActivity.class));
             }
         });
 
