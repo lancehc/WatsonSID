@@ -82,7 +82,6 @@ public class DoctorHome extends Activity implements ItemFragment.OnFragmentInter
         ParseUser user = ParseUser.getCurrentUser();
         EditText text = ((EditText) findViewById(R.id.add_patient_text));
         String newPatientEmail = text.getText().toString();
-        text.setText("");
         try {
             List<ParseUser> result = ParseUser.getQuery().whereEqualTo("email", newPatientEmail).find();
             if(result.size() > 0) {
@@ -90,11 +89,12 @@ public class DoctorHome extends Activity implements ItemFragment.OnFragmentInter
                 JSONArray patients = user.getJSONArray("patientsList");
                 patients.put(newPatientId);
                 user.put("patientsList", patients);
-                user.saveInBackground();
+                user.save();
             }
         } catch(ParseException e) {
             e.printStackTrace();
         }
+        text.setText("");
     }
 
     public void logoutClick(View v) {
