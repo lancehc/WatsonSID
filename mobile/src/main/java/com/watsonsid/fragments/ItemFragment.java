@@ -3,6 +3,7 @@ package com.watsonsid.fragments;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -25,6 +26,7 @@ import com.watsonsid.model_classes.Patient;
 
 import org.json.JSONArray;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -195,7 +197,26 @@ public class ItemFragment extends Fragment implements AbsListView.OnItemClickLis
             LayoutInflater inflater = (LayoutInflater) context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View ret = inflater.inflate(R.layout.patient_select_item, parent, false);
-            ((TextView) ret.findViewById(R.id.patient_name)).setText(contents.get(position).content);
+            TextView name = (TextView) ret.findViewById(R.id.patient_name);
+            name.setText(contents.get(position).content);
+
+            String thisPatientId = DoctorHomeFragment.patientList.get(position).id;
+            List<ParseUser> patients = new ArrayList<ParseUser>();
+            try {
+                patients = ParseUser.getCurrentUser().getQuery().whereEqualTo("objectId", thisPatientId).find();
+            } catch(ParseException e) {
+                e.printStackTrace();
+            }
+            if(patients.size() > 0) {
+                String status = patients.get(0).getString("patientStatus");
+                if(status.equals("well"))
+                    name.setTextColor(Color.GREEN);
+                if(status.equals("just ok"))
+                    name.setTextColor(Color.BLACK);
+                if(status.equals("sick"))
+                    name.setTextColor(Color.RED);
+            }
+
             ret.findViewById(R.id.button_patient_graphs).setOnClickListener(new View.OnClickListener() {
                 String patientId;
                 public View.OnClickListener setPatientId(String patientId) {

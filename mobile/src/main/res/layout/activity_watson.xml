@@ -20,7 +20,7 @@
         android:id="@+id/linearLayout">
 
         <LinearLayout
-            android:orientation="vertical"
+            android:orientation="horizontal"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
@@ -30,13 +30,23 @@
 
              <EditText
                  android:id="@+id/watson_question_text"
-                 android:layout_width="match_parent"
-                 android:layout_height="wrap_content"
+                 android:layout_width="450dp"
+                 android:layout_height="150dp"
                  android:ems="10"
                  android:hint="What is your question?"
                  android:layout_alignParentTop="true"
                  android:paddingBottom="16dp">
               </EditText>
+
+            <Button
+                android:id="@+id/calc_clear_txt_Prise"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:layout_gravity="right|center_vertical"
+                android:background="@color/dark_blue"
+                android:onClick="clearClick"
+                android:text="X"/>
 
         </LinearLayout>
 

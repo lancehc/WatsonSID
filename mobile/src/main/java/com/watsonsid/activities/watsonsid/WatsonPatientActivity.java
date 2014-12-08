@@ -1,6 +1,8 @@
 package com.watsonsid.activities.watsonsid;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.EditText;
 
 import com.watsonsid.R;
 import com.watsonsid.common.navdrawer.AbstractNavDrawerActivity;
@@ -16,4 +18,9 @@ public class WatsonPatientActivity extends AbstractNavDrawerActivityPatient {
 
     @Override
     protected int getMainLayout() { return R.layout.activity_base; }
+
+    public void clearClick(View v) {
+        EditText watsonQuestion = (EditText) findViewById(R.id.watson_question_text);
+        watsonQuestion.setText("");
+    }
 }
