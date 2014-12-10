@@ -1,6 +1,7 @@
 package com.watsonsid.fragments.dummy;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,6 +36,8 @@ public class DummyContent {
             addItem(b);
         }
 
+        Collections.sort(ITEMS);
+
 
     }
 
@@ -45,7 +48,7 @@ public class DummyContent {
     /**
      * A dummy item representing a piece of content.
      */
-    public static class DummyItem {
+    public static class DummyItem implements Comparable<DummyItem> {
 
         public String id;
         public String content;
@@ -58,6 +61,11 @@ public class DummyContent {
         @Override
         public String toString() {
             return content;
+        }
+
+        @Override
+        public int compareTo(DummyItem other) {
+            return this.content.compareTo(other.content);
         }
     }
 

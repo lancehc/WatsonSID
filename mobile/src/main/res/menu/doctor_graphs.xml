@@ -6,9 +6,8 @@
         android:showAsAction="always|withText" />
     <!-- Settings, should always be in the overflow -->
     <item android:id="@+id/action_settings"
-        android:title="@string/action_settings"
-        android:visible="false"
-        android:showAsAction="never" />
+        android:title="Delete"
+        android:showAsAction="always" />
 
 
 </menu>

@@ -36,7 +36,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by lance on 11/12/14.
@@ -47,6 +49,7 @@ public class GraphActivityDoctor extends AbstractNavDrawerActivityDoctor {
     Intent intent;
     String patientID;
     ParseUser user;
+    GraphActivityDoctor foo = this;
 
     //GraphFragmentDoc fragment;
 
@@ -68,7 +71,52 @@ public class GraphActivityDoctor extends AbstractNavDrawerActivityDoctor {
     }
 
 
+    public void makeDeleteDialog() {
+        new AlertDialog.Builder(this)
+                .setTitle("Delete Patient from List")
+                .setMessage("Are you sure you want to delete the patient from your list?")
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                user = user.getCurrentUser();
+                                JSONArray patients = user.getJSONArray("patientsList");
+                                List<String> patientIds = new ArrayList<String>(patients.length());
+                                try {
+                                    for (int i = 0; i < patients.length(); ++i) {
+                                        patientIds.add(patients.get(i).toString());
+                                    }
+                                } catch(JSONException e) {
+                                    e.printStackTrace();
+                                }
+                                int position = patientIds.indexOf(patientID);
+                                patients.remove(position);
+                                user.put("patientsList", patients);
+                                try {
+                                    user.save();
+                                } catch(ParseException e) {
+                                    e.printStackTrace();
+                                }
+                                startActivity(new Intent(foo,DoctorHome.class));
+                            }
+                        }
 
+                )
+                .
+
+                        setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        // do nothing
+                                    }
+                                }
+
+                        )
+                .
+
+                        setIcon(android.R.drawable.ic_dialog_alert)
+
+                .
+
+                        show();
+    }
     public void makeDialong() {
         new AlertDialog.Builder(this)
                 .setTitle("Alert Patient of Vitals")
@@ -135,6 +183,12 @@ public class GraphActivityDoctor extends AbstractNavDrawerActivityDoctor {
                 makeDialong();
 
                 return true;
+
+            case R.id.action_settings:
+
+                makeDeleteDialog();
+
+               return true;
 
             default:
                 return super.onOptionsItemSelected(item);

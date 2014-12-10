@@ -148,49 +148,11 @@ public class DoctorHomeFragment extends Fragment {
                     }
                     queriesFinished.incrementAndGet();
                     if(queriesFinished.intValue() == patientUsernames.size()){
-                        setPatientStatus();
+                        Collections.sort(patientList);
                     }
                 }}
             );
         }
 
-    }
-    public  void setPatientsStatus()
-    {
-        int sickCount = 0;
-        int okCount = 0;
-        int fineCount = 0;
-        Log.v("PatientQuery: ", "Number of patient status: " + patientList.size());
-        for(int i = 0; i < patientList.size(); ++i){
-            Patient patient = patientList.get(i);
-            String patientStatus = patient.status;
-            if(patientStatus == "sick"){
-                sickCount++;
-            }
-            else if(patientStatus == "just okay"){
-                okCount++;
-            }
-            else{
-                fineCount++;
-            }
-        }
-        if(fineCount >= okCount && fineCount >= sickCount){
-            doctorStatus.setText("Most of your patients are doing fine");
-        }
-        else if(okCount >= sickCount && okCount >= fineCount){
-            doctorStatus.setText("Most of your patients are just okay");
-        }
-        else {
-            doctorStatus.setText("Most of your patients are sick");
-        }
-        sickPatients.setText(String.valueOf(sickCount) + " of your patients might be sick");
-        if(okCount != 1)
-            justOkayPatients.setText(String.valueOf(okCount) + " of your patients are just okay");
-        else
-            justOkayPatients.setText(String.valueOf(okCount) + " of your patients is just okay");
-        if(fineCount != 1)
-            wellPatients.setText(String.valueOf(fineCount) + " of your patients are fine");
-        else
-            wellPatients.setText(String.valueOf(fineCount) + " of your patients is fine");
     }
 }
