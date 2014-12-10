@@ -104,7 +104,7 @@ public class GraphActivityNoNav extends FragmentActivity {
     private void makeDialong() {
         new AlertDialog.Builder(this)
                 .setTitle("Alert Patient of Vitals")
-                .setMessage("Are you sure you want to alert the " + patientId + "?")
+                .setMessage("Are you sure you want to alert the patient?")
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         user = user.getCurrentUser();

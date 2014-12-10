@@ -100,7 +100,7 @@ public class DoctorHome extends Activity implements ItemFragment.OnFragmentInter
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.doctor_home, menu);
+//        getMenuInflater().inflate(R.menu.doctor_home, menu);
         return true;
     }
 

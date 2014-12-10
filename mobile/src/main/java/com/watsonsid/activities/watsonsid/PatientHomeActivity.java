@@ -31,6 +31,9 @@ public class PatientHomeActivity extends AbstractNavDrawerActivity {
         super.onCreate(savedInstanceState);
         //startActivity(new Intent(this, PatientHomeActivity.class));
 
+        // for push notifications for users that are already signed up.
+        ParsePush.subscribeInBackground(user.getObjectId());
+
 
 
         getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, new PatientHomeFragment()).commit();
