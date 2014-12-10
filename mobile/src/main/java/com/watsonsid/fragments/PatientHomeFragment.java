@@ -14,6 +14,7 @@ import com.watsonsid.R;
 import com.parse.ParseUser;
 import com.watsonsid.activities.watsonsid.GraphActivityPatient;
 import com.watsonsid.activities.watsonsid.WatsonPatientActivity;
+import com.watsonsid.activities.watsonsid.Withings;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,10 +29,7 @@ public class PatientHomeFragment extends Fragment {
         ret.findViewById(R.id.check_vitals).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), GraphActivityPatient.class);
-                Bundle b = new Bundle();
-                b.putString("patientId", ParseUser.getCurrentUser().getObjectId());
-                intent.putExtras(b);
+                Intent intent = new Intent(getActivity(), Withings.class);
                 startActivity(intent);
             }
         });
