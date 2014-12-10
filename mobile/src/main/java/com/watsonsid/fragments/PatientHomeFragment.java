@@ -63,7 +63,7 @@ public class PatientHomeFragment extends Fragment {
         TextView patientStatusView = ((TextView) ret.findViewById(R.id.patientStatus));
         patientStatusView.setText("You are " + patientStatus);
         if(patientStatus.equals("well"))
-            patientStatusView.setTextColor(Color.GREEN);
+            patientStatusView.setTextColor(Color.parseColor("#006400"));
         if(patientStatus.equals("just ok"))
             patientStatusView.setTextColor(Color.BLACK);
         if(patientStatus.equals("sick"))

@@ -1,21 +1,9 @@
 package com.watsonsid.common.navdrawer;
 
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
 
 import com.parse.ParseUser;
-import com.parse.ui.ParseLoginActivity;
 import com.watsonsid.R;
 import com.watsonsid.activities.watsonsid.GraphActivityPatient;
 import com.watsonsid.activities.watsonsid.PatientHomeActivity;
@@ -31,8 +19,7 @@ public abstract class AbstractNavDrawerActivityPatient extends AbstractNavDrawer
         NavDrawerItem[] menu = new NavDrawerItem[] {
                 NavMenuItem.create(101, "Home", "navdrawer_home", false, this),
                 NavMenuItem.create(102, "Ask Watson", "navdrawer_watson", true, this),
-                NavMenuItem.create(103, "View Graphs", "navdrawer_graphs", true, this),
-                NavMenuItem.create(104, "Logout", "navdrawer_logout", true, this)};
+                NavMenuItem.create(103, "View Graphs", "navdrawer_graphs", true, this)};
 
 
         NavDrawerActivityConfiguration navDrawerActivityConfiguration = new NavDrawerActivityConfiguration();

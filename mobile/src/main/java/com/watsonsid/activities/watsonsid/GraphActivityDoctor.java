@@ -117,7 +117,7 @@ public class GraphActivityDoctor extends AbstractNavDrawerActivityDoctor {
 
                         show();
     }
-    public void makeDialong() {
+    public void makeDialog() {
         new AlertDialog.Builder(this)
                 .setTitle("Alert Patient of Vitals")
                 .setMessage("Are you sure you want to alert the patient?")
@@ -180,7 +180,7 @@ public class GraphActivityDoctor extends AbstractNavDrawerActivityDoctor {
                 // send parse notification
 //                openSearch();
 
-                makeDialong();
+                makeDialog();
 
                 return true;
 

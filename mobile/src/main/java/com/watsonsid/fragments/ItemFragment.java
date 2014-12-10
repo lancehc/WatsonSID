@@ -211,7 +211,7 @@ public class ItemFragment extends Fragment implements AbsListView.OnItemClickLis
             if(patients.size() > 0) {
                 String status = patients.get(0).getString("patientStatus");
                 if(status.equals("well"))
-                    name.setTextColor(Color.GREEN);
+                    name.setTextColor(Color.parseColor("#006400"));
                 if(status.equals("just ok"))
                     name.setTextColor(Color.BLACK);
                 if(status.equals("sick"))
@@ -233,19 +233,6 @@ public class ItemFragment extends Fragment implements AbsListView.OnItemClickLis
                     startActivity(intent);
                 }
             }.setPatientId(DoctorHomeFragment.patientList.get(position).id));
-            ret.findViewById(R.id.button_patient_delete).setOnClickListener(new View.OnClickListener() {
-                int position;
-                PatientArrayAdapter adapter;
-                public View.OnClickListener setVals(int position, PatientArrayAdapter adapter) {
-                    this.position = position;
-                    this.adapter = adapter;
-                    return this;
-                }
-                @Override
-                public void onClick(View view) {
-                    adapter.removePosition(position);
-                }
-            }.setVals(position, this));
             return ret;
         }
 

@@ -107,6 +107,15 @@ public class Withings extends Activity {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build(); StrictMode.setThreadPolicy(policy);
         }
         if(shouldStartServices){
+            ParseUser user = ParseUser.getCurrentUser();
+            if(user.has("withingsAccessToken"))
+            {
+                getWithingsData();
+                Intent i = new Intent(this, PatientHomeActivity.class);
+                startActivity(i);
+                finish();
+                return;
+            }
             // Replace these with your own api key and secret
             Log.d(TAG,"About to start service");
             service = new ServiceBuilder()
@@ -149,12 +158,14 @@ public class Withings extends Activity {
     protected void onSaveInstanceState (Bundle outState)
     {
         super.onSaveInstanceState(outState);
-        SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString("REQUEST_TOKEN", requestToken.getToken());
-        editor.putString("REQUEST_SECRET",requestToken.getSecret());
-        editor.commit();
-        Log.d(TAG, "about to lose data!");
+        if(requestToken != null) {
+            SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putString("REQUEST_TOKEN", requestToken.getToken());
+            editor.putString("REQUEST_SECRET", requestToken.getSecret());
+            editor.commit();
+            Log.d(TAG, "about to lose data!");
+        }
     }
 //    Check if this is a callback from OAuth
     @Override
@@ -186,104 +197,116 @@ public class Withings extends Activity {
             Token accessToken = service.getAccessToken(requestToken, verifier);
             Log.d(TAG,"Got the Access Token!");
             Log.d(TAG,"(if your curious it looks like this: " + accessToken + " )");
-            WithingsRequest withingsRequest = new WithingsRequest();
-            Response response = withingsRequest.sendRequest("measure", "getmeas");
-            Log.d(TAG,"Response to measure request: " + response.getBody());
-            JSONArray heartArray = new JSONArray();
-            List<JSONObject> heartList = new LinkedList<JSONObject>();
-            JSONArray bloodArray = new JSONArray();
-            List<JSONObject> bloodList = new LinkedList<JSONObject>();
-            try {
-                JSONObject measureObject = new JSONObject(response.getBody());
-                JSONObject measureBody = measureObject.getJSONObject("body");
-                JSONArray measureGrps = measureBody.getJSONArray("measuregrps");
-                for(int i = 0; i < measureGrps.length(); ++i)
-                {
-                    JSONObject measureGrp = measureGrps.getJSONObject(i);
-                    Date measureDate = new Date(measureGrp.getLong("date"));
-                    JSONArray measureMeasures = measureGrp.getJSONArray("measures");
-                    for(int j = 0; j < measureMeasures.length(); ++j)
-                    {
-                        JSONObject measureMeasure = measureMeasures.getJSONObject(j);
-                        Integer type = measureMeasure.getInt("type");
-                        Integer value = measureMeasure.getInt("value");
-                        if(type == 11)
-                        {
-                            heartList.add(new JSONObject("{\"dateNum\":" + measureDate.getTime() + ", \"value\":" + value + "}"));
-                            Log.d(TAG, "Heart rate recorded at :" + String.valueOf(measureDate.getTime()) + " with value of: " + value.toString());
-                        }
-                        else if(type == 54)
-                        {
-                            bloodList.add(new JSONObject("{\"dateNum\":" + measureDate.getTime() + ", \"value\":" + value + "}"));
-                            Log.d(TAG,"Blood O2 recorded at :" + String.valueOf(measureDate.getTime()) + " with value of: " + value.toString());
-                        }
-                    }
-                }
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            Collections.reverse(heartList);
-            Iterator heartIt = heartList.iterator();
-            while(heartIt.hasNext())
-            {
-                JSONObject heartObject = (JSONObject) heartIt.next();
-                heartArray.put(heartObject);
-            }
-            Collections.reverse(bloodList);
-            Iterator bloodIt = bloodList.iterator();
-            while(bloodIt.hasNext())
-            {
-                JSONObject bloodObject = (JSONObject) bloodIt.next();
-                bloodArray.put(bloodObject);
-            }
-            Response response2 = withingsRequest.sendRequest("v2/sleep", "getsummary","1387234800","1418174113");
-            Log.d(TAG,"Response to sleep request: " + response2.getBody());
-            JSONArray sleepArray = new JSONArray();
-            List<JSONObject> sleepList = new LinkedList<JSONObject>();
-            try {
-                JSONObject sleepObject = new JSONObject(response2.getBody());
-                JSONObject sleepBody = sleepObject.getJSONObject("body");
-                JSONArray sleepSeries = sleepBody.getJSONArray("series");
-                for(int i = 0; i < sleepSeries.length(); ++i)
-                {
-                    JSONObject sleepEntry = sleepSeries.getJSONObject(i);
-                    SimpleDateFormat sdf  = new SimpleDateFormat("yyyy-MM-dd");
-                    Date sleepDate = sdf.parse(sleepEntry.getString("date"));
-                    JSONObject sleepData = sleepEntry.getJSONObject("data");
-                    Integer deepSleepDuration = sleepData.getInt("deepsleepduration");
-                    Integer lightSleepDuration = sleepData.getInt("lightsleepduration");
-                    Double sleepTotal = (deepSleepDuration + lightSleepDuration) / 3600.;
-                    Long sleepTime = sleepDate.getTime() / 1000L;
-                    sleepList.add(new JSONObject("{\"dateNum\":" + sleepTime + ", \"value\":" + sleepTotal + "}"));
-                    Log.d(TAG, "Sleep recorded at :" + sleepTime + " with value of: " + sleepTotal);
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            } catch (java.text.ParseException e) {
-                e.printStackTrace();
-            }
-            Iterator sleepIt = sleepList.iterator();
-            while(sleepIt.hasNext())
-            {
-                JSONObject sleepObject = (JSONObject) sleepIt.next();
-                sleepArray.put(sleepObject);
-            }
             ParseUser user = ParseUser.getCurrentUser();
             user.put("withingsId",userid);
             user.put("withingsAccessToken",accessToken.getToken());
             user.put("withingsSecretToken",accessToken.getSecret());
-            user.put("heartRate",heartArray);
-            user.put("bloodO2", bloodArray);
-            user.put("sleep", sleepArray);
             try {
                 user.save();
+                Toast.makeText(this, "Successfully authorized", Toast.LENGTH_SHORT).show();
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            Toast.makeText(this, "Successfully authorized", Toast.LENGTH_SHORT).show();
+            getWithingsData();
             Intent i = new Intent(this, PatientHomeActivity.class);
             startActivity(i);
+            finish();
+        }
+    }
+    private void getWithingsData()
+    {
+        WithingsRequest withingsRequest = new WithingsRequest();
+        Response response = withingsRequest.sendRequest("measure", "getmeas");
+        Log.d(TAG,"Response to measure request: " + response.getBody());
+        JSONArray heartArray = new JSONArray();
+        List<JSONObject> heartList = new LinkedList<JSONObject>();
+        JSONArray bloodArray = new JSONArray();
+        List<JSONObject> bloodList = new LinkedList<JSONObject>();
+        try {
+            JSONObject measureObject = new JSONObject(response.getBody());
+            JSONObject measureBody = measureObject.getJSONObject("body");
+            JSONArray measureGrps = measureBody.getJSONArray("measuregrps");
+            for(int i = 0; i < measureGrps.length(); ++i)
+            {
+                JSONObject measureGrp = measureGrps.getJSONObject(i);
+                Date measureDate = new Date(measureGrp.getLong("date"));
+                JSONArray measureMeasures = measureGrp.getJSONArray("measures");
+                for(int j = 0; j < measureMeasures.length(); ++j)
+                {
+                    JSONObject measureMeasure = measureMeasures.getJSONObject(j);
+                    Integer type = measureMeasure.getInt("type");
+                    Integer value = measureMeasure.getInt("value");
+                    if(type == 11)
+                    {
+                        heartList.add(new JSONObject("{\"dateNum\":" + measureDate.getTime() + ", \"value\":" + value + "}"));
+                        Log.d(TAG, "Heart rate recorded at :" + String.valueOf(measureDate.getTime()) + " with value of: " + value.toString());
+                    }
+                    else if(type == 54)
+                    {
+                        bloodList.add(new JSONObject("{\"dateNum\":" + measureDate.getTime() + ", \"value\":" + value + "}"));
+                        Log.d(TAG,"Blood O2 recorded at :" + String.valueOf(measureDate.getTime()) + " with value of: " + value.toString());
+                    }
+                }
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Collections.reverse(heartList);
+        Iterator heartIt = heartList.iterator();
+        while(heartIt.hasNext())
+        {
+            JSONObject heartObject = (JSONObject) heartIt.next();
+            heartArray.put(heartObject);
+        }
+        Collections.reverse(bloodList);
+        Iterator bloodIt = bloodList.iterator();
+        while(bloodIt.hasNext())
+        {
+            JSONObject bloodObject = (JSONObject) bloodIt.next();
+            bloodArray.put(bloodObject);
+        }
+        Response response2 = withingsRequest.sendRequest("v2/sleep", "getsummary","1387234800","1418174113");
+        Log.d(TAG,"Response to sleep request: " + response2.getBody());
+        JSONArray sleepArray = new JSONArray();
+        List<JSONObject> sleepList = new LinkedList<JSONObject>();
+        try {
+            JSONObject sleepObject = new JSONObject(response2.getBody());
+            JSONObject sleepBody = sleepObject.getJSONObject("body");
+            JSONArray sleepSeries = sleepBody.getJSONArray("series");
+            for(int i = 0; i < sleepSeries.length(); ++i)
+            {
+                JSONObject sleepEntry = sleepSeries.getJSONObject(i);
+                SimpleDateFormat sdf  = new SimpleDateFormat("yyyy-MM-dd");
+                Date sleepDate = sdf.parse(sleepEntry.getString("date"));
+                JSONObject sleepData = sleepEntry.getJSONObject("data");
+                Integer deepSleepDuration = sleepData.getInt("deepsleepduration");
+                Integer lightSleepDuration = sleepData.getInt("lightsleepduration");
+                Double sleepTotal = (deepSleepDuration + lightSleepDuration) / 3600.;
+                Long sleepTime = sleepDate.getTime() / 1000L;
+                sleepList.add(new JSONObject("{\"dateNum\":" + sleepTime + ", \"value\":" + sleepTotal + "}"));
+                Log.d(TAG, "Sleep recorded at :" + sleepTime + " with value of: " + sleepTotal);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (java.text.ParseException e) {
+            e.printStackTrace();
+        }
+        Iterator sleepIt = sleepList.iterator();
+        while(sleepIt.hasNext())
+        {
+            JSONObject sleepObject = (JSONObject) sleepIt.next();
+            sleepArray.put(sleepObject);
+        }
+        ParseUser user = ParseUser.getCurrentUser();
+        user.put("heartRate",heartArray);
+        user.put("bloodO2", bloodArray);
+        user.put("sleep", sleepArray);
+        try {
+            user.save();
+            Toast.makeText(this, "Downloaded Latest Withings Data", Toast.LENGTH_SHORT).show();
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
     }
 }

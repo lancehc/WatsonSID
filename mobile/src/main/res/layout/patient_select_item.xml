@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/patient_select_item"
-    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:clickable="true"
@@ -12,26 +11,17 @@
 
     <TextView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/patient_name"
-        android:layout_width="200dp"
-        android:layout_height="50dp" />
+        android:paddingTop="13dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
     <Button
         android:id="@+id/button_patient_graphs"
         android:layout_width="100dp"
         android:layout_height="50dp"
+        android:layout_alignParentRight="true"
+        android:background="@color/button_red"
+        android:textColor="#FFFFFF"
         android:text="Graphs"/>
 
-    <Button
-        android:id="@+id/button_patient_ping"
-        android:layout_width="100dp"
-        android:layout_height="50dp"
-        android:text="Ping"/>
-
-
-    <Button
-        android:id="@+id/button_patient_delete"
-        android:layout_width="100dp"
-        android:layout_height="50dp"
-        android:text="Delete"/>
-
-</LinearLayout>
+</RelativeLayout>

@@ -4,10 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.parse.ParseUser;
-import com.parse.ui.ParseLoginActivity;
 import com.watsonsid.R;
 import com.watsonsid.activities.watsonsid.DoctorHome;
-import com.watsonsid.activities.watsonsid.GraphActivityDoctor;
 import com.watsonsid.activities.watsonsid.PatientListActivity;
 import com.watsonsid.activities.watsonsid.WatsonDoctorActivity;
 
@@ -21,8 +19,7 @@ public abstract class AbstractNavDrawerActivityDoctor extends AbstractNavDrawerA
         NavDrawerItem[] menu = new NavDrawerItem[] {
                 NavMenuItem.create(101, "Home", "navdrawer_home", false, this),
                 NavMenuItem.create(102, "Ask Watson", "navdrawer_watson", true, this),
-                NavMenuItem.create(103, "View Patients", "navdrawer_patients", true, this),
-                NavMenuItem.create(104, "Logout", "navdrawer_logout", true, this)};
+                NavMenuItem.create(103, "View Patients", "navdrawer_patients", true, this)};
 
         NavDrawerActivityConfiguration navDrawerActivityConfiguration = new NavDrawerActivityConfiguration();
         // In the future, to use more stuff, change this activity_base layout shit!

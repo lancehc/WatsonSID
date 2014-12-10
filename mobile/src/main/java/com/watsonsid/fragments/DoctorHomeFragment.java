@@ -87,7 +87,7 @@ public class DoctorHomeFragment extends Fragment {
         }
         else if(wellCount > justOkCount && wellCount > sickCount) {
             doctorStatus.setText("Most of your patients are well.");
-            doctorStatus.setTextColor(Color.GREEN);
+            doctorStatus.setTextColor(Color.parseColor("#006400"));
         }
         else if(justOkCount > sickCount) {
             doctorStatus.setText("Most of your patients are just ok.");
@@ -103,7 +103,7 @@ public class DoctorHomeFragment extends Fragment {
         justOkayPatients.setText(String.format("%d of your patients are just ok", justOkCount));
         justOkayPatients.setTextColor(Color.BLACK);
         wellPatients.setText(String.format("%d of your patients are well", wellCount));
-        wellPatients.setTextColor(Color.GREEN);
+        wellPatients.setTextColor(Color.parseColor("#006400"));
 
 
 
