@@ -239,6 +239,9 @@ public class GraphActivityNoNav extends FragmentActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle presses on the action bar items
+
+        Log.d("hello dia","hjudfhu");
+
         switch (item.getItemId()) {
             case R.id.action_alert:
                 // send parse notification
