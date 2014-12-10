@@ -6,7 +6,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:background="@color/light_blue"
+    android:background="#ffffffff"
     tools:context="com.watsonsid.fragments.WatsonFragment"
  >
 
@@ -22,7 +22,7 @@
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="100dp"
             android:layout_alignParentStart="true"
             android:id="@+id/linearLayoutinner"
             android:background="@drawable/back"
@@ -30,24 +30,24 @@
 
              <EditText
                  android:id="@+id/watson_question_text"
-                 android:layout_width="450dp"
-                 android:layout_height="150dp"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
                  android:ems="10"
                  android:hint="What is your question?"
                  android:layout_alignParentTop="true"
                  android:paddingBottom="16dp">
               </EditText>
 
-            <Button
-                android:id="@+id/calc_clear_txt_Prise"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
-                android:layout_gravity="right|center_vertical"
-                android:textColor="#ffffffff"
-                android:background="#ffd90d2c"
-                android:onClick="clearClick"
-                android:text="X"/>
+            <!--<Button-->
+                <!--android:id="@+id/calc_clear_txt_Prise"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginRight="10dp"-->
+                <!--android:layout_gravity="right|center_vertical"-->
+                <!--android:textColor="#ffffffff"-->
+                <!--android:background="#ffd90d2c"-->
+                <!--android:onClick="clearClick"-->
+                <!--android:text="X"/>-->
 
         </LinearLayout>
 
@@ -72,9 +72,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="60dp"
+
                 android:hint="Answer will appear here"
-                android:layout_marginBottom="60dp"
+
 
                 android:ems="10"
                 android:isScrollContainer="true"
