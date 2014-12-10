@@ -83,7 +83,7 @@
         android:layout_height="wrap_content"
         style="@style/ParseLoginUI.EditText"
         android:layout_marginTop="@dimen/com_parse_ui_small_vertical_spacing"
-        android:hint="Enter Doctor Acess Code. Doctors Only."
+        android:hint="Doctor access code. Doctors Only."
         android:inputType="number" />
 
     <Button
