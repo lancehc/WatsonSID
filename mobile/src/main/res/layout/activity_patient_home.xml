@@ -3,7 +3,7 @@
     android:id="@+id/patient_home"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/light_blue"
+    android:background="#ffffffff"
     android:paddingTop="10dp">
 
 
@@ -29,7 +29,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Welcome Neil"
-                android:textColor="#ff2017ac"
+                android:textColor="#ff42aaff"
                 android:textAppearance="@style/com_facebook_loginview_silver_style"
                 android:layout_below="@+id/linearLayoutinner"
                 android:layout_centerHorizontal="true"
@@ -60,7 +60,7 @@
 
             <TextView
                 android:id="@+id/patientSummary"
-                android:textColor="#ff2017ac"
+                android:textColor="#ff42aaff"
                 android:textAppearance="@style/com_facebook_loginview_silver_style"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -119,7 +119,8 @@
         android:layout_marginRight="30dp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="80dp"
-        android:background="@color/dark_blue"
+        android:textColor="#ffffffff"
+        android:background="#ffd90d2c"
         android:id="@+id/check_vitals" />
 
 
@@ -135,6 +136,7 @@
         android:layout_marginRight="30dp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="16dp"
-        android:background="@color/dark_blue"/>
+        android:textColor="#ffffffff"
+        android:background="#ffd90d2c"/>
 
 </RelativeLayout>
