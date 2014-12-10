@@ -110,44 +110,56 @@
 
         </LinearLayout>
 
-        <ImageView
-            android:id="@+id/imageView1"
-            android:layout_gravity="center_horizontal"
-            android:layout_width="133dp"
-            android:layout_height="80dp"
-            android:src="@drawable/watson_sid_logo_red_on_trans_large" />
+        <Button
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_centerHorizontal="true"
+            android:text="Check my Vitals"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="85dp"
+            android:layout_marginBottom="5dp"
+            android:textColor="#ffffffff"
+            android:background="#ffd90d2c"
+            android:id="@+id/check_vitals" />
+
+
+        <Button
+            android:id="@+id/watson_page"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_centerHorizontal="true"
+            android:text="Go to IBM Watson"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="5dp"
+            android:textColor="#ffffffff"
+            android:background="#ffd90d2c"/>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="60dp"
+            android:background="#ffefefef"
+            android:layout_marginBottom="0dp"
+            android:layout_gravity="center_horizontal">
+
+            <ImageView
+                android:id="@+id/imageView1"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="100dp"
+                android:layout_height="60dp"
+                android:src="@drawable/watson_sid_logo_red_on_trans_large" />
+
+        </LinearLayout>
+
+
 
     </LinearLayout>
 
-    <Button
-        android:layout_alignParentBottom="true"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
 
-        android:layout_centerHorizontal="true"
-        android:text="Check my Vitals"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="80dp"
-        android:textColor="#ffffffff"
-        android:background="#ffd90d2c"
-        android:id="@+id/check_vitals" />
-
-
-    <Button
-        android:id="@+id/watson_page"
-        android:layout_alignParentBottom="true"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-
-        android:layout_centerHorizontal="true"
-        android:text="Go to IBM Watson"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="16dp"
-        android:textColor="#ffffffff"
-        android:background="#ffd90d2c"/>
 
 </RelativeLayout>
