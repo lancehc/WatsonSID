@@ -18,8 +18,8 @@ public abstract class AbstractNavDrawerActivityPatient extends AbstractNavDrawer
 
         NavDrawerItem[] menu = new NavDrawerItem[] {
                 NavMenuItem.create(101, "Home", "navdrawer_home", false, this),
-                NavMenuItem.create(102, "Ask Watson", "navdrawer_watson", true, this),
-                NavMenuItem.create(103, "View Graphs", "navdrawer_graphs", true, this)};
+                NavMenuItem.create(103, "View Graphs", "navdrawer_graphs", true, this),
+                NavMenuItem.create(102, "Ask Watson", "navdrawer_watson", true, this)};
 
 
         NavDrawerActivityConfiguration navDrawerActivityConfiguration = new NavDrawerActivityConfiguration();
