@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-<<<<<<< HEAD
+
     <!--<style name="AppTheme" parent="android:Theme.Holo.Light.DarkActionBar">-->
         <!--<item name="android:activatedBackgroundIndicator">@drawable/listitem_background</item>-->
         <!--&lt;!&ndash; Customize your theme here. &ndash;&gt;-->
@@ -9,17 +9,12 @@
     <!--</style>-->
 
     <style name="AppTheme" parent="@android:style/Theme.Holo.Light">
-        <item name="android:actionBarStyle">@style/MyActionBar</item>
-    </style>
+        <!--<item name="android:actionBarStyle">@style/MyActionBar</item>-->
 
-    <style name="MyActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
-        <item name="android:background">#ffefefef</item>
-=======
-    <style name="AppTheme" parent="android:Theme.Holo.Light.DarkActionBar">
         <item name="android:activatedBackgroundIndicator">@drawable/listitem_background</item>
         <!-- Customize your theme here. -->
         <item name="android:itemTextAppearance"> @color/red</item>
->>>>>>> sammyh
+
     </style>
 
 </resources>

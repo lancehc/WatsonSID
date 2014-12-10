@@ -10,10 +10,9 @@ import android.support.v4.view.GestureDetectorCompat;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
-<<<<<<< HEAD
-=======
+
 import android.view.MenuItem;
->>>>>>> sammyh
+
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -43,10 +42,6 @@ import java.util.Date;
  * Created by lance on 11/12/14.
  */
 public class GraphActivityDoctor extends AbstractNavDrawerActivityDoctor {
-<<<<<<< HEAD
-    String patientID;
-=======
-
 
     android.support.v4.app.Fragment fragment;
     Intent intent;
@@ -55,7 +50,7 @@ public class GraphActivityDoctor extends AbstractNavDrawerActivityDoctor {
 
     //GraphFragmentDoc fragment;
 
->>>>>>> sammyh
+
 
     @Override
     protected int getMainLayout() { return R.layout.activity_base; }
@@ -72,8 +67,6 @@ public class GraphActivityDoctor extends AbstractNavDrawerActivityDoctor {
         getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, fragment).commit();
     }
 
-<<<<<<< HEAD
-=======
 
 
     public void makeDialong() {
@@ -118,7 +111,6 @@ public class GraphActivityDoctor extends AbstractNavDrawerActivityDoctor {
     }
 
 
->>>>>>> sammyh
     // adding alert menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -128,8 +120,7 @@ public class GraphActivityDoctor extends AbstractNavDrawerActivityDoctor {
 
         return super.onCreateOptionsMenu(menu);
     }
-<<<<<<< HEAD
-=======
+
 
     // handle click
     @Override
@@ -172,5 +163,5 @@ public class GraphActivityDoctor extends AbstractNavDrawerActivityDoctor {
 //        return super.onCreateOptionsMenu(menu); //.onCreateOptionsMenu(menu, inflater);
 //        // return onCreateOptionsMenu(menu);
 //    }
->>>>>>> sammyh
+
 }
