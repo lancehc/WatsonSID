@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.parse.ParseException;
 import com.watsonsid.R;
 
 
@@ -31,6 +32,7 @@ import com.parse.Parse;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.watsonsid.model_classes.WithingsApi;
+import com.watsonsid.model_classes.WithingsRequest;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -38,9 +40,12 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.protocol.HTTP;
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.scribe.builder.ServiceBuilder;
 import org.scribe.builder.api.TwitterApi;
+import org.scribe.model.Response;
 import org.scribe.model.SignatureType;
 import org.scribe.model.Token;
 import org.scribe.model.Verifier;
@@ -55,6 +60,12 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
+import java.text.*;
+import java.util.Collections;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Scanner;
@@ -175,10 +186,96 @@ public class Withings extends Activity {
             Token accessToken = service.getAccessToken(requestToken, verifier);
             Log.d(TAG,"Got the Access Token!");
             Log.d(TAG,"(if your curious it looks like this: " + accessToken + " )");
+            WithingsRequest withingsRequest = new WithingsRequest();
+            Response response = withingsRequest.sendRequest("measure", "getmeas");
+            Log.d(TAG,"Response to measure request: " + response.getBody());
+            JSONArray heartArray = new JSONArray();
+            List<JSONObject> heartList = new LinkedList<JSONObject>();
+            JSONArray bloodArray = new JSONArray();
+            List<JSONObject> bloodList = new LinkedList<JSONObject>();
+            try {
+                JSONObject measureObject = new JSONObject(response.getBody());
+                JSONObject measureBody = measureObject.getJSONObject("body");
+                JSONArray measureGrps = measureBody.getJSONArray("measuregrps");
+                for(int i = 0; i < measureGrps.length(); ++i)
+                {
+                    JSONObject measureGrp = measureGrps.getJSONObject(i);
+                    Date measureDate = new Date(measureGrp.getLong("date"));
+                    JSONArray measureMeasures = measureGrp.getJSONArray("measures");
+                    for(int j = 0; j < measureMeasures.length(); ++j)
+                    {
+                        JSONObject measureMeasure = measureMeasures.getJSONObject(j);
+                        Integer type = measureMeasure.getInt("type");
+                        Integer value = measureMeasure.getInt("value");
+                        if(type == 11)
+                        {
+                            heartList.add(new JSONObject("{\"dateNum\":" + measureDate.getTime() + ", \"value\":" + value + "}"));
+                            Log.d(TAG, "Heart rate recorded at :" + String.valueOf(measureDate.getTime()) + " with value of: " + value.toString());
+                        }
+                        else if(type == 54)
+                        {
+                            bloodList.add(new JSONObject("{\"dateNum\":" + measureDate.getTime() + ", \"value\":" + value + "}"));
+                            Log.d(TAG,"Blood O2 recorded at :" + String.valueOf(measureDate.getTime()) + " with value of: " + value.toString());
+                        }
+                    }
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            Collections.reverse(heartList);
+            Iterator heartIt = heartList.iterator();
+            while(heartIt.hasNext())
+            {
+                JSONObject heartObject = (JSONObject) heartIt.next();
+                heartArray.put(heartObject);
+            }
+            Collections.reverse(bloodList);
+            Iterator bloodIt = bloodList.iterator();
+            while(bloodIt.hasNext())
+            {
+                JSONObject bloodObject = (JSONObject) bloodIt.next();
+                bloodArray.put(bloodObject);
+            }
+            Response response2 = withingsRequest.sendRequest("v2/sleep", "getsummary","1387234800","1418174113");
+            Log.d(TAG,"Response to sleep request: " + response2.getBody());
+            JSONArray sleepArray = new JSONArray();
+            List<JSONObject> sleepList = new LinkedList<JSONObject>();
+            try {
+                JSONObject sleepObject = new JSONObject(response2.getBody());
+                JSONObject sleepBody = sleepObject.getJSONObject("body");
+                JSONArray sleepSeries = sleepBody.getJSONArray("series");
+                for(int i = 0; i < sleepSeries.length(); ++i)
+                {
+                    JSONObject sleepEntry = sleepSeries.getJSONObject(i);
+                    SimpleDateFormat sdf  = new SimpleDateFormat("yyyy-MM-dd");
+                    Date sleepDate = sdf.parse(sleepEntry.getString("date"));
+                    JSONObject sleepData = sleepEntry.getJSONObject("data");
+                    Integer deepSleepDuration = sleepData.getInt("deepsleepduration");
+                    Integer lightSleepDuration = sleepData.getInt("lightsleepduration");
+                    Double sleepTotal = (deepSleepDuration + lightSleepDuration) / 3600.;
+                    Long sleepTime = sleepDate.getTime() / 1000L;
+                    sleepList.add(new JSONObject("{\"dateNum\":" + sleepTime + ", \"value\":" + sleepTotal + "}"));
+                    Log.d(TAG, "Sleep recorded at :" + sleepTime + " with value of: " + sleepTotal);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (java.text.ParseException e) {
+                e.printStackTrace();
+            }
+            Iterator sleepIt = sleepList.iterator();
+            while(sleepIt.hasNext())
+            {
+                JSONObject sleepObject = (JSONObject) sleepIt.next();
+                sleepArray.put(sleepObject);
+            }
             ParseUser user = ParseUser.getCurrentUser();
             user.put("withingsId",userid);
             user.put("withingsAccessToken",accessToken.getToken());
             user.put("withingsSecretToken",accessToken.getSecret());
+            user.put("heartRate",heartArray);
+            user.put("bloodO2", bloodArray);
+            user.put("sleep", sleepArray);
             try {
                 user.save();
             } catch (ParseException e) {
