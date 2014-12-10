@@ -52,7 +52,7 @@ public class SampleDispatchActivity extends ParseLoginDispatchActivity {
     ParseUser user = ParseUser.getCurrentUser();
             Boolean isPatient = user.getBoolean("isPatient");
             if(isPatient){
-                return PatientHomeActivity.class;
+                return Withings.class;
             }
             else{
                 return DoctorHome.class;
