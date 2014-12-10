@@ -10,18 +10,10 @@
 
     <TextView
         android:id="@+id/twitterText"
-        android:text="@string/hello_world"
+        android:text="Connect to Withings... "
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:gravity="center_horizontal"/>
 
-
-    <TextView
-        android:id="@+id/myText"
-        android:text="@string/hello_world"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
-        android:gravity="center_horizontal"/>
 </RelativeLayout>

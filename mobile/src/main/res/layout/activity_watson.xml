@@ -44,7 +44,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
                 android:layout_gravity="right|center_vertical"
-                android:background="@color/dark_blue"
+                android:textColor="#ffffffff"
+                android:background="#ffd90d2c"
                 android:onClick="clearClick"
                 android:text="X"/>
 
@@ -101,7 +102,8 @@
         android:layout_centerHorizontal="true"
         android:text="Ask IBM Watson"
         android:layout_marginTop="10dp"
-        android:background="@color/dark_blue"/>
+        android:textColor="#ffffffff"
+        android:background="#ffd90d2c" />
 
 
 
