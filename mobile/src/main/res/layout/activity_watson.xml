@@ -74,7 +74,7 @@
                 android:layout_centerHorizontal="true"
 
                 android:hint="Answer will appear here"
-
+                android:layout_marginBottom="40dp"
 
                 android:ems="10"
                 android:isScrollContainer="true"
