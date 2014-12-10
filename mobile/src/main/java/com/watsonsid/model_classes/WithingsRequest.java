@@ -1,5 +1,7 @@
 package com.watsonsid.model_classes;
 
+import android.util.Log;
+
 import com.parse.ParseUser;
 
 import org.scribe.builder.ServiceBuilder;
@@ -19,7 +21,7 @@ public class WithingsRequest {
     private static final String OAUTH_KEY = "b57fe01deec0d74bc9793042950241d1507c3f4021920b1d9923813f9c6"; // Put your Consumer key here
     private static final String OAUTH_SECRET = "301f19e634d925f2b109879ffed19ef5e6421cb42fe050f4eb2206575969"; // Put your Consumer secret here
 
-    WithingsRequest() {
+    public WithingsRequest() {
         ParseUser user = ParseUser.getCurrentUser();
         userId = user.getString("withingsId");
         accessToken = new Token(user.getString("withingsAccessToken"),user.getString("withingsSecretToken"));
@@ -29,26 +31,32 @@ public class WithingsRequest {
                 .signatureType(SignatureType.QueryString)
                 .build();
     }
-    private Response sendRequest(String resource, String action){
-        String URL = "https://wbsapi.withings.net/" + resource;
+    public Response sendRequest(String resource, String action, String... times){
+        String startTime = times.length > 0 ? times[0] : null;
+        String endTime = times.length > 1 ? times[1] : null;
+        String URL = "http://wbsapi.withings.net/" + resource;
         OAuthRequest request = new OAuthRequest(Verb.GET, URL);
         request.addQuerystringParameter("action", action);
         request.addQuerystringParameter("userid", userId);
+        if(endTime != null) {
+            request.addQuerystringParameter("startdate", startTime);
+            request.addQuerystringParameter("enddate", endTime);
+        }
         addOauthParameters(request);
-
+        Log.d("WithingsOAuth","request url: " + request.getCompleteUrl());
         Response response = request.send();
         return response;
     }
     private void addOauthParameters(OAuthRequest request){
         service.signRequest(accessToken, request);
         Map oauthParams = request.getOauthParameters();
-        request.addQuerystringParameter("oauth_consumer_key", oauthParams.get("oauth_consumer_key").toString());
-        request.addQuerystringParameter("oauth_nonce", oauthParams.get("oauth_nonce").toString());
-        request.addQuerystringParameter("oauth_signature", oauthParams.get("oauth_signature").toString());
-        request.addQuerystringParameter("oauth_signature_method", oauthParams.get("oauth_signature_method").toString());
-        request.addQuerystringParameter("oauth_timestamp", oauthParams.get("oauth_timestamp").toString());
-        request.addQuerystringParameter("oauth_token", oauthParams.get("oauth_token").toString());
-        request.addQuerystringParameter("oauth_version", oauthParams.get("oauth_version").toString());
+        //request.addQuerystringParameter("oauth_consumer_key", oauthParams.get("oauth_consumer_key").toString());
+        //request.addQuerystringParameter("oauth_nonce", oauthParams.get("oauth_nonce").toString());
+        //request.addQuerystringParameter("oauth_signature", oauthParams.get("oauth_signature").toString());
+        //request.addQuerystringParameter("oauth_signature_method", oauthParams.get("oauth_signature_method").toString());
+        //request.addQuerystringParameter("oauth_timestamp", oauthParams.get("oauth_timestamp").toString());
+        //request.addQuerystringParameter("oauth_token", oauthParams.get("oauth_token").toString());
+        //request.addQuerystringParameter("oauth_version", oauthParams.get("oauth_version").toString());
     }
     private Token accessToken;
     private String userId;
