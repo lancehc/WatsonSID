@@ -1,11 +1,13 @@
 package com.watsonsid.fragments;
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.app.Fragment;
+
 import android.widget.TextView;
 
 import com.watsonsid.R;
@@ -14,9 +16,14 @@ import com.parse.ParseUser;
 import com.parse.*;
 import com.watsonsid.model_classes.Patient;
 
+import org.json.JSONArray;
+
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class DoctorHomeFragment extends Fragment {
@@ -25,13 +32,13 @@ public class DoctorHomeFragment extends Fragment {
     TextView doctorStatus;
     TextView sickPatients;
     TextView justOkayPatients;
-    TextView finePatients;
+    TextView wellPatients;
 
 
 
     View rootView;
 
-    ParseUser user = ParseUser.getCurrentUser();
+    static ParseUser user = ParseUser.getCurrentUser();
 
     public static List<Patient> patientList;
 
@@ -47,9 +54,58 @@ public class DoctorHomeFragment extends Fragment {
         doctorStatus = (TextView) rootView.findViewById(R.id.doctorStatus);
         sickPatients = (TextView) rootView.findViewById(R.id.sickPatients);
         justOkayPatients =(TextView) rootView.findViewById(R.id.justOkayPatients);
-        finePatients = (TextView) rootView.findViewById(R.id.finePatients);
+        wellPatients = (TextView) rootView.findViewById(R.id.finePatients);
 
-        doctorHomeGreeting.setText("Hello, " + user.getString("name"));
+        doctorHomeGreeting.setText("Hello, Dr. " + user.getString("name"));
+        int sickCount = 0, justOkCount = 0, wellCount = 0;
+        ParseUser user = ParseUser.getCurrentUser();
+        Set<String> patientIdSet = new HashSet<String>();
+        final List<String> patientIds = user.getList("patientsList");
+        for(String id : patientIds) {
+            Log.v("One patient!", id);
+            patientIdSet.add(id);
+        }
+        List<ParseUser> patients = new ArrayList<ParseUser>();
+        try {
+            patients = user.getQuery().whereContainedIn("objectId", patientIdSet).find();
+        } catch(ParseException e) {
+            e.printStackTrace();
+        }
+        Log.v("Number of patients: ", " " + patients.size());
+        for(ParseUser p : patients) {
+            String status = p.getString("patientStatus");
+            if(status.equals("well"))
+                ++wellCount;
+            if(status.equals("just okay"))
+                ++justOkCount;
+            if(status.equals("sick"))
+                ++sickCount;
+        }
+        if(patients.size() == 0) {
+            doctorStatus.setText("You don't have any patients");
+            doctorStatus.setTextColor(Color.BLACK);
+        }
+        else if(wellCount > justOkCount && wellCount > sickCount) {
+            doctorStatus.setText("Most of your patients are well.");
+            doctorStatus.setTextColor(Color.GREEN);
+        }
+        else if(justOkCount > sickCount) {
+            doctorStatus.setText("Most of your patients are just ok.");
+            doctorStatus.setTextColor(Color.BLACK);
+        }
+        else {
+            doctorStatus.setText("Most of your patients are sick.");
+            doctorStatus.setTextColor(Color.RED);
+        }
+
+        sickPatients.setText(String.format("%d of your patients are sick", sickCount));
+        sickPatients.setTextColor(Color.RED);
+        justOkayPatients.setText(String.format("%d of your patients are just ok", justOkCount));
+        justOkayPatients.setTextColor(Color.BLACK);
+        wellPatients.setText(String.format("%d of your patients are well", wellCount));
+        wellPatients.setTextColor(Color.GREEN);
+
+
 
 
 
@@ -57,7 +113,7 @@ public class DoctorHomeFragment extends Fragment {
     }
 
 
-    public void setPatientStatus() {
+    public static void setPatientStatus() {
 
         try {
             user.fetch();
@@ -133,8 +189,8 @@ public class DoctorHomeFragment extends Fragment {
         else
             justOkayPatients.setText(String.valueOf(okCount) + " of your patients is just okay");
         if(fineCount != 1)
-            finePatients.setText(String.valueOf(fineCount) + " of your patients are fine");
+            wellPatients.setText(String.valueOf(fineCount) + " of your patients are fine");
         else
-            finePatients.setText(String.valueOf(fineCount) + " of your patients is fine");
+            wellPatients.setText(String.valueOf(fineCount) + " of your patients is fine");
     }
 }

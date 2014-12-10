@@ -2,10 +2,11 @@ package com.watsonsid.activities.watsonsid;
 
 import android.app.Activity;
 import android.app.ActionBar;
-import android.app.Fragment;
+
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,85 +16,54 @@ import android.widget.EditText;
 
 import com.parse.ui.ParseLoginActivity;
 import com.watsonsid.R;
+import com.watsonsid.common.navdrawer.AbstractNavDrawerActivityDoctor;
 import com.watsonsid.fragments.DoctorHomeFragment;
 import com.watsonsid.fragments.ItemFragment;
 
 import com.parse.*;
 
 import com.parse.ParseUser;
+import com.watsonsid.fragments.WatsonFragment;
 
 import org.json.JSONArray;
 
-public class DoctorHome extends Activity implements ItemFragment.OnFragmentInteractionListener {
+import java.util.List;
 
-    ActionBar.Tab homeTab, patientListTab;
-
-    Fragment homeFragmentTab = new DoctorHomeFragment();
-    Fragment patientFragmentTab = new ItemFragment();
+public class DoctorHome extends AbstractNavDrawerActivityDoctor implements ItemFragment.OnFragmentInteractionListener {
+    @Override
+    protected int getMainLayout() { return R.layout.activity_base; }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_doctor_home2);
-        if (savedInstanceState == null) {
-            getFragmentManager().beginTransaction()
-                    .add(R.id.activity_doc, new PlaceholderFragment())
-                    .commit();
-        }
-
-        ActionBar actionBar = getActionBar();
-        actionBar.setDisplayShowHomeEnabled(false);
-
-
-
-        actionBar.setDisplayShowTitleEnabled(false);
-
-
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-
-        // set tabs
-        homeTab = actionBar.newTab().setText("Home");
-        patientListTab = actionBar.newTab().setText("Patient List");
-
-
-        homeTab.setTabListener(new TabListener(homeFragmentTab));
-        patientListTab.setTabListener(new TabListener(patientFragmentTab));
-
-        actionBar.addTab(homeTab);
-        actionBar.addTab(patientListTab);
-
-
+        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, new DoctorHomeFragment()).commit();
     }
 
     @Override
-    public void onFragmentInteraction(String id) {
-
-    }
-
-    //    public void onFragmentInteraction(Uri uri){
-//        url = ItemFragment.newInstance();
-//
-//    }
+    public void onFragmentInteraction(String id) { }
 
 
     public void addPatientClick(View v) {
         ParseUser user = ParseUser.getCurrentUser();
-        JSONArray patients = user.getJSONArray("patientsList");
         EditText text = ((EditText) findViewById(R.id.add_patient_text));
-        String newPatient = text.getText().toString();
+        String newPatientEmail = text.getText().toString();
+        try {
+            List<ParseUser> result = ParseUser.getQuery().whereEqualTo("email", newPatientEmail).find();
+            if(result.size() > 0) {
+                String newPatientId = result.get(0).getObjectId();
+                JSONArray patients = user.getJSONArray("patientsList");
+                patients.put(newPatientId);
+                user.put("patientsList", patients);
+                user.save();
+            }
+        } catch(ParseException e) {
+            e.printStackTrace();
+        }
         text.setText("");
-        patients.put(newPatient);
-        user.put("patientsList", patients);
-        user.saveInBackground();
-    }
-
-    public void logoutClick(View v) {
-        ParseUser.logOut();
-        Intent logoutIntent = new Intent(this, ParseLoginActivity.class);
-        startActivity(logoutIntent);
     }
 
     public void watsonClick(View v){
+<<<<<<< HEAD
         startActivity(new Intent(this,WatsonActivityNoNav.class));
     }
 
@@ -102,19 +72,12 @@ public class DoctorHome extends Activity implements ItemFragment.OnFragmentInter
         // Inflate the menu; this adds items to the action bar if it is present.
 //        getMenuInflater().inflate(R.menu.doctor_home, menu);
         return true;
+=======
+        startActivity(new Intent(this, WatsonDoctorActivity.class));
+>>>>>>> master
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
+    public void patientsClick(View v){ startActivity(new Intent(this, PatientListActivity.class)); }
 
     /**
      * A placeholder fragment containing a simple view.
