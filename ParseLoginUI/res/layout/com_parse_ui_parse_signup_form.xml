@@ -77,6 +77,15 @@
     </RadioGroup>
 
 
+    <EditText
+        android:id="@+id/signup_doctor_code"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/ParseLoginUI.EditText"
+        android:layout_marginTop="@dimen/com_parse_ui_small_vertical_spacing"
+        android:hint="Enter Doctor Acess Code. Doctors Only."
+        android:inputType="number" />
+
     <Button
         android:id="@+id/create_account"
         style="@style/ParseLoginUI.Button"
@@ -84,4 +93,22 @@
         android:text="@string/com_parse_ui_create_account_button_label"
         android:textColor="#000000"/>
 
+
+    <TextView
+
+        android:layout_marginTop="40dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="If you don't have a Doctor access code, go to the link below."/>
+
+    <TextView
+
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:autoLink="web"
+        android:linksClickable="true"
+        android:text="http://goo.gl/forms/oLBH1guxbu"/>
+
 </LinearLayout>
+

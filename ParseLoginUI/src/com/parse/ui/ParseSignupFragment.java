@@ -24,6 +24,7 @@ package com.parse.ui;
 import android.app.Activity;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -34,6 +35,7 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 
 import com.parse.ParseException;
+import com.parse.ParsePush;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
@@ -45,12 +47,17 @@ import org.json.JSONArray;
 public class ParseSignupFragment extends ParseLoginFragmentBase implements OnClickListener {
     public static final String USERNAME = "com.parse.ui.ParseSignupFragment.USERNAME";
     public static final String PASSWORD = "com.parse.ui.ParseSignupFragment.PASSWORD";
+    public static final String DOCTORCODE = "com.parse.ui.ParseSignupFragment.DOCTOR";
+
+    private String DOCTORCODEFINAL = "562891";
+
 
     private EditText usernameField;
     private EditText passwordField;
     private EditText confirmPasswordField;
     private EditText emailField;
     private EditText nameField;
+    private EditText doctorCodeField;
     private Button createAccountButton;
     private ParseOnLoginSuccessListener onLoginSuccessListener;
     private RadioButton doctorButton;
@@ -87,6 +94,8 @@ public class ParseSignupFragment extends ParseLoginFragmentBase implements OnCli
 
         String username = (String) args.getString(USERNAME);
         String password = (String) args.getString(PASSWORD);
+        String doctorCode = (String) args.getString(DOCTORCODE);
+
 
         View v = inflater.inflate(R.layout.com_parse_ui_parse_signup_fragment,
                 parent, false);
@@ -97,6 +106,8 @@ public class ParseSignupFragment extends ParseLoginFragmentBase implements OnCli
                 .findViewById(R.id.signup_confirm_password_input);
         emailField = (EditText) v.findViewById(R.id.signup_email_input);
         nameField = (EditText) v.findViewById(R.id.signup_name_input);
+        doctorCodeField = (EditText) v.findViewById(R.id.signup_doctor_code);
+
         createAccountButton = (Button) v.findViewById(R.id.create_account);
 
         doctorButton = (RadioButton) v.findViewById(R.id.radioDoctor);
@@ -105,6 +116,7 @@ public class ParseSignupFragment extends ParseLoginFragmentBase implements OnCli
 
         usernameField.setText(username);
         passwordField.setText(password);
+        doctorCodeField.setText(doctorCode);
 
         if (appLogo != null && config.getAppLogo() != null) {
             appLogo.setImageResource(config.getAppLogo());
@@ -148,7 +160,11 @@ public class ParseSignupFragment extends ParseLoginFragmentBase implements OnCli
     public void onClick(View v) {
         String username = usernameField.getText().toString();
         String password = passwordField.getText().toString();
+        String doctorCode = doctorCodeField.getText().toString();
         String passwordAgain = confirmPasswordField.getText().toString();
+
+
+        Log.d("access code", doctorCode);
 
         String email = null;
         if (config.isParseLoginEmailAsUsername()) {
@@ -195,6 +211,8 @@ public class ParseSignupFragment extends ParseLoginFragmentBase implements OnCli
             showToast(R.string.com_parse_ui_no_name_toast);
         } else if (!doctorButton.isChecked() && !patientButton.isChecked()) {
             showToast("Please select doctor or patient");
+        } else if (doctorButton.isChecked() && !doctorCode.equals(DOCTORCODEFINAL)) {
+            showToast("Please enter access code or get one");
         } else {
             ParseUser user = new ParseUser();
 
@@ -202,6 +220,8 @@ public class ParseSignupFragment extends ParseLoginFragmentBase implements OnCli
             user.setUsername(username);
             user.setPassword(password);
             user.setEmail(email);
+//            // subsrcibe to objectID channel for push
+//            ParsePush.subscribeInBackground(user.getObjectId());
 
             if (isDoctor) {
                 user.put("isPatient", false);
