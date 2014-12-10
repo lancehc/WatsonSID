@@ -7,6 +7,7 @@ package com.watsonsid.activities.watsonsid;
 import android.os.Bundle;
 
 import com.parse.ParsePush;
+import com.parse.ParseUser;
 import com.watsonsid.R;
 import com.watsonsid.common.navdrawer.AbstractNavDrawerActivityPatient;
 import com.watsonsid.fragments.PatientHomeFragment;
@@ -15,6 +16,7 @@ import com.watsonsid.fragments.PatientHomeFragment;
  * Created by lance on 11/12/14.
  */
 public class PatientHomeActivity extends AbstractNavDrawerActivityPatient {
+    ParseUser user;
 
 
 
@@ -24,16 +26,14 @@ public class PatientHomeActivity extends AbstractNavDrawerActivityPatient {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-<<<<<<< HEAD
+
+        user.getCurrentUser();
         //startActivity(new Intent(this, PatientHomeActivity.class));
 
         // for push notifications for users that are already signed up.
         ParsePush.subscribeInBackground(user.getObjectId());
 
 
-
-=======
->>>>>>> master
         getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, new PatientHomeFragment()).commit();
     }
 }

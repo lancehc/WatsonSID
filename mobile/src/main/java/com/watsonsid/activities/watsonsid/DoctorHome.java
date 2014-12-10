@@ -63,8 +63,8 @@ public class DoctorHome extends AbstractNavDrawerActivityDoctor implements ItemF
     }
 
     public void watsonClick(View v){
-<<<<<<< HEAD
-        startActivity(new Intent(this,WatsonActivityNoNav.class));
+
+        startActivity(new Intent(this,WatsonDoctorActivity.class));
     }
 
     @Override
@@ -72,9 +72,7 @@ public class DoctorHome extends AbstractNavDrawerActivityDoctor implements ItemF
         // Inflate the menu; this adds items to the action bar if it is present.
 //        getMenuInflater().inflate(R.menu.doctor_home, menu);
         return true;
-=======
-        startActivity(new Intent(this, WatsonDoctorActivity.class));
->>>>>>> master
+
     }
 
     public void patientsClick(View v){ startActivity(new Intent(this, PatientListActivity.class)); }
