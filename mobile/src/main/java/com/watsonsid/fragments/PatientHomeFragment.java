@@ -70,11 +70,11 @@ public class PatientHomeFragment extends Fragment {
             patientStatusView.setTextColor(Color.RED);
 
         ((TextView) ret.findViewById(R.id.heartRate)).setText(
-                "Heart Rate: " + heartRate + " bpm");
+                String.format("Heart Rate: %.1f bpm", heartRate));
         ((TextView) ret.findViewById(R.id.bloodOxygen)).setText(
-                "Blood Oxygen Level: " + bloodO2 + "%");
+                String.format("Blood Oxygen Content: %.1f", bloodO2) + "%");
         ((TextView) ret.findViewById(R.id.sleepCycle)).setText(
-                "REM Sleep Cycle: " + sleep + " hrs");
+                String.format("Sleep Duration: %.1f hrs", sleep));
 
         return ret;
     }

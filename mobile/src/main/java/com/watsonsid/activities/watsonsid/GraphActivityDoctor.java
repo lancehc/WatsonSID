@@ -123,12 +123,12 @@ public class GraphActivityDoctor extends AbstractNavDrawerActivityDoctor {
                 .setMessage("Are you sure you want to alert the patient?")
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                user = user.getCurrentUser();
+                                user = ParseUser.getCurrentUser();
 
 
                                 Log.d("pop up", "is working");
                                 ParsePush push = new ParsePush();
-//                        PushService.subscribe(context, "channel", Activity.class)
+//                                PushService.subscribe(context, "channel", Activity.class)
 
                                 push.setChannel(patientID);
                                 push.setMessage("Your Doctor sees something troubling with your vitals");

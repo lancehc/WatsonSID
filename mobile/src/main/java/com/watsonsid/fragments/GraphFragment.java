@@ -91,6 +91,7 @@ public class GraphFragment extends Fragment {
     private void setGraphVisual(int index) {
         GraphView graphView = new LineGraphView(getActivity(), graphNames[index]);
         graphView.addSeries(getGraphData(index));
+        graphView.setScalable(true);
         graphView.setCustomLabelFormatter(getCustomLabelFormatter(index));
         graphView.getGraphViewStyle().setGridColor(getResources().getColor(R.color.dark_blue));
         //graphView.getGraphViewStyle().setVerticalLabelsColor(getResources().getColor(R.color.dark_blue));
@@ -98,7 +99,7 @@ public class GraphFragment extends Fragment {
         FrameLayout layout = (FrameLayout) ret.findViewById(R.id.content_frame);
         layout.removeAllViews();
         layout.addView(graphView);
-        ret.findViewById(R.id.content_frame).setBackgroundColor(getResources().getColor(R.color.light_blue));
+        ret.findViewById(R.id.content_frame); //.setBackgroundColor(getResources().getColor(R.color.light_blue));
         layout.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
