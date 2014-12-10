@@ -48,6 +48,7 @@ public class WatsonFragment extends Fragment implements WatsonQueryCallbacks {
                                                                                if (watsonQuestion.getText() != null) {
                                                                                    watson = new Watson(getString(R.string.user_id), getString(R.string.user_password), getString(R.string.user_watson_server_instance));
                                                                                    mWatsonQueryString = watsonQuestion.getText().toString();
+                                                                                   watsonQuestion.setText("");
                                                                                    progress = ProgressDialog.show(ret.getContext(), "Asking Watson", "Please wait a moment", true, true);
                                                                                    watson.sendQuery(mWatsonQueryString, mCallbacks);
                                                                                }

@@ -1,9 +1,12 @@
 package com.watsonsid.fragments;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,13 +15,19 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.TextView;
+
+import com.parse.ParseException;
 import com.watsonsid.R;
 
 import com.parse.ParseUser;
-import com.watsonsid.activities.watsonsid.GraphActivity;
-import com.watsonsid.activities.watsonsid.GraphActivityNoNav;
+import com.watsonsid.activities.watsonsid.GraphActivityDoctor;
 import com.watsonsid.fragments.dummy.DummyContent;
 import com.watsonsid.model_classes.Patient;
+
+import org.json.JSONArray;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A fragment representing a list of Items.
@@ -89,14 +98,14 @@ public class ItemFragment extends Fragment implements AbsListView.OnItemClickLis
 
 
         // TODO: Change Adapter to display your content
-        mAdapter = new ArrayAdapter<DummyContent.DummyItem>(getActivity(),
-                android.R.layout.simple_list_item_1, android.R.id.text1, DummyContent.ITEMS);
+        mAdapter = new PatientArrayAdapter(getActivity(),
+                R.layout.patient_select_item, DummyContent.ITEMS);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_item, container, false);
+        View view = inflater.inflate(R.layout.fragment_item_list, container, false);
 
         // Set the adapter
         mListView = (AbsListView) view.findViewById(android.R.id.list);
@@ -134,7 +143,8 @@ public class ItemFragment extends Fragment implements AbsListView.OnItemClickLis
             mListener.onFragmentInteraction(DummyContent.ITEMS.get(position).id);
         }
         Patient patient = DoctorHomeFragment.patientList.get(position);
-        Intent intent = new Intent(view.getContext(), GraphActivityNoNav.class);
+        Log.v("PatientList:", view.toString());
+        Intent intent = new Intent(view.getContext(), GraphActivityDoctor.class);
         Bundle b = new Bundle();
         b.putString("patientId", patient.id);
         intent.putExtras(b);
@@ -168,6 +178,89 @@ public class ItemFragment extends Fragment implements AbsListView.OnItemClickLis
         // TODO: Update argument type and name
 
         public void onFragmentInteraction(String id);
+    }
+
+    private class PatientArrayAdapter extends ArrayAdapter<DummyContent.DummyItem> {
+        Context context;
+
+        List<DummyContent.DummyItem> contents = null;
+
+        public PatientArrayAdapter(Context context, int textViewResourceId,
+                                  List<DummyContent.DummyItem> objects) {
+            super(context, textViewResourceId, objects);
+            this.context = context;
+            this.contents = objects;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            LayoutInflater inflater = (LayoutInflater) context
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View ret = inflater.inflate(R.layout.patient_select_item, parent, false);
+            TextView name = (TextView) ret.findViewById(R.id.patient_name);
+            name.setText(contents.get(position).content);
+
+            String thisPatientId = DoctorHomeFragment.patientList.get(position).id;
+            List<ParseUser> patients = new ArrayList<ParseUser>();
+            try {
+                patients = ParseUser.getCurrentUser().getQuery().whereEqualTo("objectId", thisPatientId).find();
+            } catch(ParseException e) {
+                e.printStackTrace();
+            }
+            if(patients.size() > 0) {
+                String status = patients.get(0).getString("patientStatus");
+                if(status.equals("well"))
+                    name.setTextColor(Color.GREEN);
+                if(status.equals("just ok"))
+                    name.setTextColor(Color.BLACK);
+                if(status.equals("sick"))
+                    name.setTextColor(Color.RED);
+            }
+
+            ret.findViewById(R.id.button_patient_graphs).setOnClickListener(new View.OnClickListener() {
+                String patientId;
+                public View.OnClickListener setPatientId(String patientId) {
+                    this.patientId = patientId;
+                    return this;
+                }
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(view.getContext(), GraphActivityDoctor.class);
+                    Bundle b = new Bundle();
+                    b.putString("patientId", patientId);
+                    intent.putExtras(b);
+                    startActivity(intent);
+                }
+            }.setPatientId(DoctorHomeFragment.patientList.get(position).id));
+            ret.findViewById(R.id.button_patient_delete).setOnClickListener(new View.OnClickListener() {
+                int position;
+                PatientArrayAdapter adapter;
+                public View.OnClickListener setVals(int position, PatientArrayAdapter adapter) {
+                    this.position = position;
+                    this.adapter = adapter;
+                    return this;
+                }
+                @Override
+                public void onClick(View view) {
+                    adapter.removePosition(position);
+                }
+            }.setVals(position, this));
+            return ret;
+        }
+
+        public void removePosition(int position) {
+            ParseUser user = ParseUser.getCurrentUser();
+            JSONArray patients = user.getJSONArray("patientsList");
+            patients.remove(position);
+            user.put("patientsList", patients);
+            try {
+                user.save();
+            } catch(ParseException e) {
+                e.printStackTrace();
+            }
+            contents.remove(position);
+            notifyDataSetChanged();
+        }
     }
 
 }

@@ -1,13 +1,16 @@
-package com.watsonsid.activities.watsonsid;
+package com.watsonsid.fragments;
+
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.GestureDetectorCompat;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
-import com.watsonsid.R;
 import com.jjoe64.graphview.CustomLabelFormatter;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GraphViewSeries;
@@ -16,21 +19,17 @@ import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
-import com.watsonsid.common.navdrawer.AbstractNavDrawerActivity;
+import com.watsonsid.R;
 import com.watsonsid.common.OnSwipeTouchListener;
-import com.watsonsid.model_classes.Patient;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.Date;
 
-/**
- * Created by lance on 11/12/14.
- */
-public class GraphActivity extends AbstractNavDrawerActivity {
+public class GraphFragment extends Fragment {
+
     private GestureDetectorCompat gestureDetector;
     private final String[] graphNames = new String[]{
             "Heart Rate",
@@ -43,16 +42,18 @@ public class GraphActivity extends AbstractNavDrawerActivity {
     JSONArray bloodOxygenData;
     JSONArray sleepData;
     Boolean isFinishedLoading;
-    @Override
-    protected int getMainLayout() { return R.layout.activity_base; }
+
+    View ret;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        ret = inflater.inflate(R.layout.activity_base, container, false);
         super.onCreate(savedInstanceState);
-        Bundle bundle = getIntent().getExtras();
+        Bundle bundle = getArguments();
         isFinishedLoading = false;
         if(bundle != null) {
-            patientId = getIntent().getExtras().getString("patientId");
+            patientId = bundle.getString("patientId");
             ParseQuery<ParseUser> query = ParseUser.getQuery();
             query.whereEqualTo("ID", patientId);
             query.getInBackground(patientId, new GetCallback<ParseUser>() {
@@ -69,7 +70,7 @@ public class GraphActivity extends AbstractNavDrawerActivity {
                 }
             });
         }
-        gestureDetector = new GestureDetectorCompat(this, new OnSwipeTouchListener() {
+        gestureDetector = new GestureDetectorCompat(getActivity(), new OnSwipeTouchListener() {
             @Override
             protected void onSwipeTop() {
                 if (isFinishedLoading && i < 2) {
@@ -83,19 +84,21 @@ public class GraphActivity extends AbstractNavDrawerActivity {
                 }
             }
         });
+
+        return ret;
     }
 
     private void setGraphVisual(int index) {
-        GraphView graphView = new LineGraphView(this, graphNames[index]);
+        GraphView graphView = new LineGraphView(getActivity(), graphNames[index]);
         graphView.addSeries(getGraphData(index));
         graphView.setCustomLabelFormatter(getCustomLabelFormatter(index));
         graphView.getGraphViewStyle().setGridColor(getResources().getColor(R.color.dark_blue));
         //graphView.getGraphViewStyle().setVerticalLabelsColor(getResources().getColor(R.color.dark_blue));
         //graphView.getGraphViewStyle().setHorizontalLabelsColor(getResources().getColor(R.color.dark_blue));
-        FrameLayout layout = (FrameLayout) findViewById(R.id.content_frame);
+        FrameLayout layout = (FrameLayout) ret.findViewById(R.id.content_frame);
         layout.removeAllViews();
         layout.addView(graphView);
-        findViewById(R.id.content_frame).setBackgroundColor(getResources().getColor(R.color.light_blue));
+        ret.findViewById(R.id.content_frame).setBackgroundColor(getResources().getColor(R.color.light_blue));
         layout.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
